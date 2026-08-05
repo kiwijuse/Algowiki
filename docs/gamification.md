@@ -119,13 +119,13 @@ $exp_percent = $need_exp / $exp_a[$idx + 1] * 100;
 
 <table>
 <tr>
-<td align="center"><img src="../assets/tier/v3/None.png" width="46"><br><sub>None</sub></td>
-<td align="center"><img src="../assets/tier/v3/Beginner1.png" width="46"><br><sub>Beginner</sub></td>
-<td align="center"><img src="../assets/tier/v3/Easy1.png" width="46"><br><sub>Easy</sub></td>
-<td align="center"><img src="../assets/tier/v3/Normal1.png" width="46"><br><sub>Normal</sub></td>
-<td align="center"><img src="../assets/tier/v3/Advanced1.png" width="46"><br><sub>Advanced</sub></td>
-<td align="center"><img src="../assets/tier/v3/Hard1.png" width="46"><br><sub>Hard</sub></td>
-<td align="center"><img src="../assets/tier/v3/Challenge1.png" width="46"><br><sub>Challenge</sub></td>
+<td align="center"><img src="../assets/tier/v2/None.png" width="46"><br><sub>None</sub></td>
+<td align="center"><img src="../assets/tier/v2/Beginner1.png" width="46"><br><sub>Beginner</sub></td>
+<td align="center"><img src="../assets/tier/v2/Easy1.png" width="46"><br><sub>Easy</sub></td>
+<td align="center"><img src="../assets/tier/v2/Normal1.png" width="46"><br><sub>Normal</sub></td>
+<td align="center"><img src="../assets/tier/v2/Advanced1.png" width="46"><br><sub>Advanced</sub></td>
+<td align="center"><img src="../assets/tier/v2/Hard1.png" width="46"><br><sub>Hard</sub></td>
+<td align="center"><img src="../assets/tier/v2/Challenge1.png" width="46"><br><sub>Challenge</sub></td>
 </tr>
 </table>
 
