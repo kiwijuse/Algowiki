@@ -1,0 +1,41 @@
+# ── 자격증명 · 키 (절대 커밋 금지) ──────────────────────────
+*.pem
+*.ppk
+*.key
+*.pfx
+*.p12
+id_rsa*
+known_hosts
+.env
+.env.*
+**/db_info.local.php
+
+# ── 운영 스크립트 · 서버 메모 ────────────────────────────
+*.cmd
+*.lnk
+judge.conf
+**/etc/judge.conf
+
+# ── 빌드 산출물 ────────────────────────────────────────
+*.o
+*.so
+*.out
+*.exe
+daily_scheduler
+weekly_scheduler
+judge_client
+judged
+
+# ── 아카이브 ──────────────────────────────────────────
+*.tar.gz
+*.zip
+*.7z
+
+# ── 편집기 · OS ───────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+desktop.ini
+.DS_Store

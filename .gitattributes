@@ -1,0 +1,24 @@
+* text=auto
+
+*.php   text
+*.css   text
+*.h     text
+*.cpp   text
+*.md    text
+*.html  text
+
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.heic  binary
+*.pdf   binary
+*.mkv   binary
+
+# 언어 통계에서 제외 (아카이브 · 에셋)
+archive/**  linguist-vendored
+assets/**   linguist-vendored
+demo/**     linguist-vendored
+paper/**    linguist-vendored
+docs/**     linguist-documentation

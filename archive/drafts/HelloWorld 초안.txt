@@ -1,0 +1,46 @@
+                        
+    새로 설치된 HUSTOJ 시스템입니다&#44; 사용 및 구성에 대해서는 아래 링크를 참고하시기 바랍니다.:
+<br />
+
+        <ul>
+                <li>
+                        <a href="http://hustoj.com" target="_blank">hustoj.com</a>&nbsp;최신 FAQ
+          </li>
+               <li>
+                        <a href="https://gitee.com/zhblue/hustoj" target="_blank">gitee.com</a>&nbsp;국내 미러링 스테이션&#44; 수시로 github 소스 동기화
+               </li>
+               <li>
+                        <a href="http://github.com/zhblue/hustoj" target="_blank">github.com</a>&nbsp;해외의 메인 사이트&#44; 최신 소스 코드 여기 있습니다.
+                </li>
+               <li>
+                        <a href="https://zhblue.github.io/hustoj/" target="_blank">https://zhblue.github.io/hustoj/</a>&nbsp;중국어 기초 조작 문서
+           </li>
+               <li>
+                        <a href="https://gitee.com/zhblue/hustoj/tree/master/wiki" target="_blank">wiki</a>&nbsp;영어 고급 문서
+           </li>
+       </ul>
+<br />
+
+ 제목이 필요하면 다음을 방문하십시오
+<br />
+
+      <ul>
+                <li>
+                        <a href="http://tk.hustoj.com" target="_blank">tk.hustoj.com</a>&nbsp;등록하면 무료 코너의 1000여 문제&#44; 쇼핑카트를 이용하면 대량으로 다운로드 받을 수 있습니다.xm<x>l파일을 직접 시스템으로 가져올 수 있습니다.
+          </li>
+               <li>
+                        <a href="https://github.com/zhblue/freeproblemset/tree/master/fps-examples" target="_blank">FPS sample</a>&nbsp;FPS마스터 스테이션 샘플에는 일부 제목이 있습니다.
+            </li>
+               <li>
+                        <a href="https://github.com/Azure99/EasyFPSViewer/releases" target="_blank">EasyFPSViewer</a>&nbsp;是一个Windows下的FPS/xm<x>l편집 보기 도구 &#44;는 xm<x>l에 있는 제목을 보고&#44; 분할하고&#44; 추출할 수 있습니다.
+             </li><li>
+<a href="http://royqh.net/redpandacpp/download/" target="_blank">판다 C++ </a>&amp;nbsp;는 Windows의 IDE로 DEV-C++의 정신적 계승자입니다.
+</li>
+       </ul>
+<br />
+
+ <br />
+<br />
+
+        이 시스템을 능숙하게 사용하는 경우 백그라운드 게시 목록에서 이 페이지의 내용을 편집하거나 숨길 수 있습니다.
+<br />                  
