@@ -36,6 +36,7 @@
 |---|---|
 | **README** (이 문서) | 프로젝트 개요 · 화면 · 핵심 기능 |
 | [docs/frontend.md](docs/frontend.md) | **프론트엔드 설계** — 화면을 어떻게 짰는지 |
+| [docs/web-structure.md](docs/web-structure.md) | **웹 구조** — 서버 배치 · URL 맵 · 라우팅 · 요청 흐름 |
 | [docs/gamification.md](docs/gamification.md) | 퀘스트 · 레벨 · 재화 · 상점 · 아이템 설계 |
 | [docs/architecture.md](docs/architecture.md) | 시스템 구조 · 채점기 연동 · 스케줄러 |
 | [docs/file-map.md](docs/file-map.md) | **파일별 역할** — 어떤 PHP가 무엇을 하는지 |
@@ -251,33 +252,40 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었다.
 ```
 AlgoWiki/
 ├─ src/
-│  ├─ web/              실제 서비스에 올라가 있던 PHP · CSS 일체
+│  ├─ web/              실제 서비스에 올라가 있던 PHP · CSS
 │  │  ├─ index.php          메인 페이지
-│  │  ├─ header.php         전역 헤더 / 내비게이션
-│  │  ├─ problem/           문제 목록 · 문제 · 채점 현황 렌더러
+│  │  ├─ header.php         전역 헤더 / 내비게이션 (테마 계층)
+│  │  ├─ problem_list.php   문제 목록 · problem.php  문제 상세
+│  │  ├─ status.php         채점 현황 · category.php  태그/위키
+│  │  ├─ userinfo.php       프로필 탭 라우터 · quiz.php  퀴즈
+│  │  ├─ board.php          게시판 라우터 + 글/댓글 액션
+│  │  ├─ problem/           문제 · 채점 현황 렌더러 (_header / _db)
 │  │  ├─ userinfo/          프로필 · 퀘스트 · 상점 · 인벤토리 · 설정 탭
 │  │  ├─ quest/             퀘스트 목록 · 보상 수령 엔드포인트
-│  │  ├─ board/             게시판 (자유 / 질문 / 신고 / 검색)
-│  │  └─ include/           DB 설정 (자격증명은 CHANGE_ME 로 치환됨)
+│  │  └─ board/             게시판 분류별 뷰 (자유 / 질문 / 신고 / 검색)
 │  └─ judge/
 │     ├─ quest_api/         채점기에 심은 퀘스트 진행도 훅 (C++ 헤더)
 │     └─ scheduler/         일일 / 주간 퀘스트 초기화 cron (C++)
 ├─ templates/           아이템 확률표 · 퀴즈 틀 HTML 원본
 ├─ assets/              실제 서비스에서 쓰던 이미지 전량
-│  ├─ screenshots/          실제 화면 캡처
+│  ├─ screenshots/          실제 화면 캡처 15장
 │  ├─ brand/                로고 · 파비콘 · 아이콘
 │  ├─ main/                 메인 페이지 히어로 이미지
 │  ├─ tier/                 난이도 티어 보석 (v1 / v2 / v3 리비전)
-│  ├─ quest/                퀘스트 아이콘
+│  ├─ quest/                퀘스트 아이콘 29종
 │  ├─ border/               프로필 테두리 36종
 │  └─ inventory/            아이템 아이콘
 ├─ docs/                설계 문서
 ├─ paper/               졸업 논문 (PDF)
-├─ demo/                시연 영상
-└─ archive/             초기 초안(drafts) · 개별 백업 사본
+└─ demo/                시연 영상
 ```
 
-파일 하나하나의 역할은 [docs/file-map.md](docs/file-map.md) 에 표로 정리해 두었습니다.
+- 서버에서 이 파일들이 어떻게 배치되고 요청이 흐르는지 → [docs/web-structure.md](docs/web-structure.md)
+- 파일 하나하나의 역할 → [docs/file-map.md](docs/file-map.md)
+
+> 이 저장소에는 **AlgoWiki 팀이 직접 만든 것만** 담았습니다.
+> HUSTOJ가 제공하는 채점기 · 코어 인클루드 · 인증 · 랭킹 · 관리자 페이지는 포함하지 않고
+> [출처](#크레딧--라이선스)만 남겼습니다.
 
 ---
 

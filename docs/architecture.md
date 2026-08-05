@@ -264,12 +264,15 @@ if ($user != $_SESSION[$OJ_NAME.'_'.'user_id']) {
 1. [HUSTOJ](https://github.com/zhblue/hustoj) 설치 (Apache · PHP · MariaDB · judged)
 2. AlgoWiki 추가 테이블 생성 (`uinfo` · `quests` · `progress` · `accept` · `pinfo` · `tag` · `user_link`)
    — 스키마 덤프는 서비스 DB에만 있었으므로 이 저장소에 없습니다
-3. `src/web/` 을 HUSTOJ 웹 루트와 `template/` 아래로 배치
-4. `src/web/include/db_info.inc.php` 의 `$DB_PASS="CHANGE_ME"` 를 실제 값으로 교체
+3. `src/web/` 을 HUSTOJ 웹 루트와 `template/<테마>/` 아래로 배치
+   — 어느 파일이 어디로 가는지는 [web-structure.md](web-structure.md#1-서버에서의-배치) 참고
+4. HUSTOJ의 `include/db_info.inc.php` 에 DB 자격증명 설정
+   — 이 저장소에는 HUSTOJ 코어를 포함하지 않았습니다
 5. `src/judge/quest_api/` 를 judge_client에 포함하고 AC 경로에서 `ac_api_process()` 호출
 6. `src/judge/scheduler/` 빌드 후 cron 등록 (`daily` 매일 00시 / `weekly` 매주)
+   — `daily_scheduler.cpp` 의 `password = "CHANGE_ME"` 를 실제 값으로 교체
 
-> **보안** — 커밋 전 DB 비밀번호는 전부 `CHANGE_ME` 로 치환했습니다.
+> **보안** — 커밋 전 DB 비밀번호는 `CHANGE_ME`, 서버 IP는 `<SERVER_IP>` 로 치환했습니다.
 > `daily_scheduler.cpp` 처럼 자격증명이 소스에 하드코딩된 부분은
 > 실제 재배포 시 환경변수나 설정 파일로 빼는 것이 맞습니다.
 

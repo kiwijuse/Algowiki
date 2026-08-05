@@ -19,12 +19,14 @@ AlgoWiki가 그대로 사용하거나 수정해 사용한 부분:
 |---|---|
 | 채점기 (`judged` / `judge_client`) | 코드 컴파일 · 실행 · 결과 판정 · 샌드박싱 전부 |
 | 세션 / 인증 | 로그인 · 권한 · 관리자 구분 |
-| 코어 인클루드 | `my_func.inc.php`, `memcache.php`, `bbcode.php`, `cache_start.php`, `setlang.php` 등 |
+| 코어 인클루드 | `db_info.inc.php`, `my_func.inc.php`, `memcache.php`, `bbcode.php`, `cache_start.php`, `setlang.php` 등 |
 | DB 스키마 기반 | `users`, `problem`, `solution`, `contest`, `news`, `mail` 등 |
-| 일부 페이지 | `help.php`, `faqs.php`, `showsource2.php`, `reinfo.php` 등을 수정해 사용 |
+| 인증 · 랭킹 · 대회 | `loginpage.php`, `ranklist.php`, `contest.php` 등 |
+| 관리자 · 안내 페이지 | `admin/` 전체, `help.php`, `menu2.php`, `faqs.php`, `reinfo.php`, `showsource2.php` |
 
-> 이 저장소에는 HUSTOJ 원본 소스를 **포함하지 않습니다.** 위 upstream을 참고하세요.
-> `src/web/include/db_info.inc.php` 만 설정 구조를 보이기 위해 포함했으며, 자격증명은 `CHANGE_ME` 로 치환했습니다.
+> 이 저장소에는 **HUSTOJ 원본 및 그 파생 파일을 일절 포함하지 않습니다.**
+> 위 목록에 해당하는 파일은 전부 제외했고, 필요하시면 upstream을 참고하세요.
+> 무엇을 왜 제외했는지는 [docs/file-map.md](docs/file-map.md#제외한-파일) 에 정리해 두었습니다.
 
 ### SYZOJ 테마
 
