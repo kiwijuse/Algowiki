@@ -102,27 +102,18 @@
 
 | 파일 | 역할 |
 |---|---|
-| `quest_db.php` | **퀘스트 목록 렌더러.** 분류별 클리어 수 집계 → 진행바, 육각형 아이콘, 히든 퀘스트 `???` 마스킹, 조건 안의 태그명·문제번호를 링크로, 완료 시 보상 수령 버튼. `quest_sort_weight DESC` 정렬로 거의 다 깬 퀘스트를 위로 |
-| `profile_db.php` | 좌측 프로필 카드 렌더러. 누적 EXP를 레벨 구간표에 **이분 탐색**해 LV·진행률 계산, 코인 표시, 다음 레벨까지 필요 EXP 툴팁 |
-| `get_reward.php` | **보상 수령 처리.** 진행도 충족 + 미수령 검증 → `uinfo.acc_exp` / `uinfo.coin` 가산 → `quest_rec_rewards = 1` 마킹으로 중복 수령 차단 |
+| `quest_db.php` | **퀘스트 목록 렌더러.** 분류별 클리어 수 집계 → 진행바, 육각형 아이콘, 히든 퀘스트 `???` 마스킹, 조건 안의 태그명·문제번호를 링크로, 완료 시 보상 수령 버튼. 진행률 높은 순으로 정렬해 거의 다 깬 퀘스트를 위로 |
+| `profile_db.php` | 좌측 프로필 카드 렌더러. LV · EXP 바 · 코인 표시, 다음 레벨까지 필요 EXP 툴팁 |
+| `get_reward.php` | **보상 수령 처리.** 수령 가능한 상태인지 확인하고 EXP · 코인을 지급, 중복 수령 차단 |
 
-## `src/judge/quest_api/` — 채점기 훅 (C++)
+## `src/judge/` — 채점기 연동 (C++)
 
-| 파일 | 역할 |
+게임화를 위해 서버 쪽에 얹은 두 조각입니다. 자세한 배경은 [architecture.md](architecture.md).
+
+| 위치 | 역할 |
 |---|---|
-| `ac_api.h` | **진입점** `ac_api_process()`. 첫 정답 검증 → 진행도 로드 → `accept` 기록 → 문제 통계 갱신 → `quest_class` 별 분기. 미완료 퀘스트만 핸들러로 넘겨 초과 진행을 구조적으로 차단 |
-| `daily_quest.h` | 일일 퀘스트 — 출석 체크(7일 스트릭 연동 상승), Random-Tag 방어(`problem.source` 파싱해 태그 일치 검사), 난이도별 랜덤 문제 |
-| `weekly_quest.h` | 주간 퀘스트 — 누적형 진행도 |
-| `main_quest.h` | 메인 퀘스트 — 일반 카운트 증가형 |
-| `hidden_quest.h` | 히든 퀘스트 핸들러 (자리 확보) |
-| `common_header.h` | 공통 include · MySQL 커넥터 |
-
-## `src/judge/scheduler/` — cron 배치 (C++)
-
-| 파일 | 역할 |
-|---|---|
-| `daily_scheduler.cpp` | 매일 00시 — 일일 퀘스트 초기화, Random-Tag 태그 재배정, 사용자별 난이도대 랜덤 문제 지목(`mt19937`, **안 푼 문제만** 후보) |
-| `weekly_scheduler.cpp` | 매주 — 주간 퀘스트 초기화 |
+| `quest_api/` | 채점기가 **정답을 판정하는 순간** 퀘스트 진행도를 올리는 훅.<br>분류별(일일 / 주간 / 메인 / 히든)로 파일이 나뉘어 있습니다 |
+| `scheduler/` | 일일 · 주간 퀘스트를 초기화하고 그날의 랜덤 문제·태그를 새로 지목하는 cron 배치 |
 
 ## `templates/` — 서비스에 쓰인 HTML 조각 원본
 

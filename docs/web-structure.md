@@ -164,19 +164,16 @@ GET /problem_list.php
 ②    jQuery 가 두 개를 병렬 POST
    │
    ├─ POST quest/profile_db.php   { user }
-   │     └ uinfo.acc_exp / coin 조회 → 이분 탐색으로 LV 계산
-   │       → 프로필 카드 HTML 응답
+   │     └ 프로필 카드 HTML 응답 (LV · EXP 바 · 코인)
    │
    └─ POST quest/quest_db.php     { user, quest: '일일' }
-         └ quests × progress 조인, quest_sort_weight DESC 정렬
-           → 진행바 + 퀘스트 카드 목록 HTML 응답
+         └ 진행바 + 퀘스트 카드 목록 HTML 응답
+           (진행률 높은 순 정렬)
 
 ③ [보상 수령] 클릭
    │
    ├─ POST quest/get_reward.php   { user, quest_id }
-   │     ├ user_prog >= quest_end_prog 이고 미수령인지 검증
-   │     ├ uinfo.acc_exp / coin 가산
-   │     └ progress.quest_rec_rewards = 1
+   │     └ 수령 가능한지 확인하고 EXP · 코인 지급
    │
    └─ 10ms 뒤: 폭죽 → profile_db.php 재요청 → quest_db.php 재요청
                 (코인·EXP·퀘스트 상태가 동시에 갱신됨)
@@ -206,7 +203,7 @@ GET /problem_list.php
 │                 *_ajax.php    (읽기 + 쓰기)                │
 ├─────────────────────────────────────────────────────────┤
 │  코어 계층      include/  ※ HUSTOJ — 이 저장소에 없음      │
-│                 세션 · DB(pdo_query) · 캐시 · 다국어        │
+│                 세션 · DB 접근 · 캐시 · 다국어             │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -219,21 +216,12 @@ GET /problem_list.php
 
 ## 6. 캐시 정책
 
-모든 파일이 첫머리에서 캐시를 **명시적으로** 선언합니다.
+AlgoWiki는 화면 대부분이 개인화되어 있습니다 —
+난이도 표시 방식, 맞은 문제 표시, 프로필·퀘스트·상점은 사람마다 내용이 다릅니다.
+그래서 **여러 사용자가 공유하는 캐시를 사실상 쓰지 않습니다.**
 
-```php
-$cache_time     = 30;      // 초
-$OJ_CACHE_SHARE = false;   // 사용자별 데이터 → 공유 캐시 비활성
-require_once('./include/cache_start.php');
-```
-
-| 대상 | `$OJ_CACHE_SHARE` | 이유 |
-|---|---|---|
-| 문제 목록 · 태그 · 채점 현황 | `false` (개인 설정 반영) | 난이도 표시 · 맞은 문제 표시가 사용자마다 다름 |
-| 프로필 · 퀘스트 · 상점 · 인벤토리 | `false` | 완전한 개인 데이터 |
-
-AlgoWiki는 화면 대부분이 개인화되어 있어 사실상 공유 캐시를 쓰지 않습니다.
-대신 **AJAX로 조각만 다시 받기** 때문에 전체 페이지 재생성 비용이 애초에 발생하지 않습니다.
+대신 **AJAX로 조각만 다시 받기** 때문에 전체 페이지를 다시 만드는 비용이 애초에 발생하지 않습니다.
+필터를 바꿔도 갱신되는 건 목록 영역 하나뿐입니다.
 
 ---
 

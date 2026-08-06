@@ -38,7 +38,7 @@
 | **[프론트엔드 설계](docs/frontend.md)** | 화면을 어떻게 짰는지 — 이 프로젝트의 중심 |
 | **[웹 구조](docs/web-structure.md)** | 서버 배치 · URL 맵 · 라우팅 · 요청 흐름 |
 | **[게임화 설계](docs/gamification.md)** | 퀘스트 · 레벨 · 재화 · 상점 · 아이템 |
-| **[시스템 구조](docs/architecture.md)** | 채점기 연동 · 스케줄러 · 데이터베이스 |
+| **[시스템 구조](docs/architecture.md)** | 화면이 얹혀 있는 서버 구성 — 개요 |
 | **[파일별 역할](docs/file-map.md)** | 어떤 PHP가 무엇을 하는지 |
 | **[화면 모음](docs/screens.md)** | 전체 스크린샷과 설명 |
 
@@ -171,8 +171,8 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 - **출석 체크** — 연속 출석(7일 스트릭) 퀘스트와 연동되어 함께 상승
 
 > [!NOTE]
-> 퀘스트 진행도는 **채점기가 정답 판정을 내리는 순간** C++ 훅에서 갱신됩니다.
-> 웹에서 폴링하지 않으니 중복·누락이 구조적으로 발생하지 않습니다. → [시스템 구조](docs/architecture.md)
+> 퀘스트 진행도는 **채점기가 정답을 판정하는 순간** 갱신됩니다.
+> 화면에서 계산하지 않으니 탭을 열어두든 닫아두든 값이 어긋나지 않습니다.
 
 <br>
 
@@ -223,12 +223,15 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 | **프로필 테두리** | **36종** — 정지 16 · 애니메이션 GIF 20 |
 
 <div align="center">
-<img src="assets/border/profile_border1.png" width="72">
-<img src="assets/border/profile_border5.png" width="72">
-<img src="assets/border/profile_border12.png" width="72">
-<img src="assets/border/profile_border20.gif" width="72">
-<img src="assets/border/profile_border28.gif" width="72">
-<img src="assets/border/profile_border34.gif" width="72">
+<img src="assets/border/preview/profile_border5.png" width="76">
+<img src="assets/border/preview/profile_border12.png" width="76">
+<img src="assets/border/preview/profile_border17.gif" width="76">
+<img src="assets/border/preview/profile_border20.gif" width="76">
+<img src="assets/border/preview/profile_border28.gif" width="76">
+<img src="assets/border/preview/profile_border31.gif" width="76">
+<img src="assets/border/preview/profile_border34.gif" width="76">
+<br>
+<sub>착용했을 때의 실제 모습 — 테두리만 바뀌고 가운데는 내 프로필 이미지</sub>
 </div>
 
 > [!TIP]
@@ -272,30 +275,21 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 ## 시스템 구조
 
 ```
-                     ┌───────────────────────────────┐
-  Browser ── HTTP ──▶│  Apache + PHP   (웹 · 뷰 계층) │
-      ▲              │  index · problem · userinfo   │
-      │  AJAX 조각    │  quest · board · category     │
-      └──────────────└───────────────┬───────────────┘
-                                     │
-                             MariaDB (jol)
-                 users · uinfo · problem · solution
-                 quests · progress · accept · tag
-                                     ▲
-                     ┌───────────────┴───────────────┐
-                     │  HUSTOJ judged  (C++ 채점기)   │
-                     │    └ quest_api ★ 직접 심은 훅  │
-                     └───────────────┬───────────────┘
-                                     │
-                     ┌───────────────┴───────────────┐
-                     │  cron 스케줄러 (C++)            │
-                     │    daily / weekly quest reset  │
-                     └───────────────────────────────┘
+   Browser ──── HTTP ────▶  Apache + PHP  (웹 · 뷰 계층)
+       ▲                              │
+       └──── AJAX 조각 ────────────────┤
+                                      ▼
+                                   MariaDB
+                                      ▲
+                    ┌─────────────────┴─────────────────┐
+                    │                                   │
+            HUSTOJ 채점기                        cron 스케줄러
+         └ 퀘스트 훅 ★ 직접 추가                 └ 일일 / 주간 초기화 ★
 ```
 
-핵심은 **채점기에 훅을 심은 것**입니다. 문제를 맞히면 채점기가 결과를 쓰는 그 자리에서
-`ac_api_process()` 가 호출되어 — 첫 정답인지 확인하고, 정답률을 갱신하고,
-진행 중인 퀘스트를 분류별로 순회하며 진행도를 올립니다. 웹 레이어는 결과만 읽습니다.
+AWS EC2 단일 인스턴스 위에 Apache + PHP + MariaDB + HUSTOJ 채점기.
+게임화에 필요한 두 조각(**채점 시 퀘스트 진행도 갱신**, **매일·매주 퀘스트 초기화**)만
+직접 얹고, 나머지 채점 파이프라인은 HUSTOJ를 그대로 썼습니다.
 
 → [docs/architecture.md](docs/architecture.md)
 

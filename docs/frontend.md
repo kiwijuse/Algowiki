@@ -160,18 +160,8 @@ input:checked + label {                   /* 체크된 라디오의 라벨만 �
 퍼센트는 서버에서 계산해 `style="width:{$percent}%"` 로 **인라인 주입**합니다.
 클라이언트가 다시 계산하지 않으니 값이 어긋날 일이 없습니다.
 
-레벨은 누적 경험치를 레벨 구간 배열에 **이분 탐색**해서 구합니다.
-
-```php
-$l = 1; $r = 30000; $idx = 0;
-while ($l <= $r) {
-    $mid = intval(($l + $r) / 2);
-    if ($exp_total[$mid] > $exp_point) $r = $mid - 1;
-    else { $idx = $mid; $l = $mid + 1; }
-}
-$lv = $idx + 1;
-$exp_percent = ($exp_point - $exp_total[$idx]) / $exp_a[$idx + 1] * 100;
-```
+같은 마크업을 레벨 바(`67.2%`)와 퀘스트 바(`3/6`)에 그대로 쓰고,
+가운데 텍스트 포맷만 다르게 넣었습니다.
 
 ---
 
