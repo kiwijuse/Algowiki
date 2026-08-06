@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/brand/algowiki_logo.png" width="100" alt="AlgoWiki">
+<img src="assets/brand/algowiki_logo2.png" width="100" alt="AlgoWiki">
 
 # AlgoWiki
 
