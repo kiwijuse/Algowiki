@@ -231,7 +231,6 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 <img src="assets/border/preview/profile_border31.gif" width="76">
 <img src="assets/border/preview/profile_border34.gif" width="76">
 <br>
-<sub>착용했을 때의 실제 모습 — 테두리만 바뀌고 가운데는 내 프로필 이미지</sub>
 </div>
 
 > [!TIP]
