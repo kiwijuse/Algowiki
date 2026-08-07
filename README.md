@@ -76,7 +76,7 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 > 제목을 클릭하면 스크린샷이 펼쳐집니다.
 
 <details>
-<summary><b>🏠 &nbsp;메인</b> &nbsp;— &nbsp;히어로 · 지그재그 문제 카드 · 소식 섹션</summary>
+<summary><b>🏠 &nbsp;메인</b></summary>
 <br>
 <img src="assets/screenshots/main.png" alt="메인 페이지">
 </details>
@@ -92,13 +92,13 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 </details>
 
 <details>
-<summary><b>📝 &nbsp;문제 상세</b> &nbsp;— &nbsp;의도된 시간복잡도 · 힌트 · 아이템 힌트</summary>
+<summary><b>📝 &nbsp;문제 상세</b> &nbsp;— &nbsp;의도된 시간복잡도 · 힌트</summary>
 <br>
 <img src="assets/screenshots/problem.png" alt="문제 상세">
 </details>
 
 <details>
-<summary><b>🧩 &nbsp;퀘스트</b> &nbsp;— &nbsp;일일 / 주간 / 메인 · 육각형 아이콘 · 보상 수령</summary>
+<summary><b>🧩 &nbsp;퀘스트</b> &nbsp;— &nbsp;일일 / 주간 / 메인 · 보상 수령</summary>
 <br>
 <img src="assets/screenshots/userinfo_quest.png" alt="퀘스트 탭">
 </details>
@@ -114,7 +114,7 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 </details>
 
 <details>
-<summary><b>🎒 &nbsp;인벤토리</b> &nbsp;— &nbsp;보유 아이템 · 수량</summary>
+<summary><b>🎒 &nbsp;인벤토리</b> &nbsp;— &nbsp;보유 아이템 · 수량 · 사용</summary>
 <br>
 <img src="assets/screenshots/userinfo_inventory.png" alt="인벤토리">
 </details>
