@@ -50,7 +50,7 @@ function isMobileDevice() {
 }
 
 if (!isMobileDevice()) {
-    // 모바일 디바이스가 아닌 경우에만 스크립트 실행
+    // 모바일이 아닐 때만 배경 연출 스크립트 로드
     ?>
     <div id="snowboard">
         <!--<div v-for="i in 250" :key="i" class="snow" :ref="'snow' + i"></div>-->
@@ -346,7 +346,7 @@ $profile_git_image = pdo_query("select git_link from user_link where user_id = '
 ?>
 <script>
 var username = '<?php echo $profile_git_image;?>';
-    // GitHub API를 통해 프로필 사진 URL 가져오기
+    // GitHub API에서 아바타 URL 조회
     fetch(`https://api.github.com/users/${username}`)
         .then(response => {
             if (!response.ok) {
@@ -355,7 +355,6 @@ var username = '<?php echo $profile_git_image;?>';
             return response.json();
         })
         .then(data => {
-            // 이미지 태그의 src 속성에 프로필 사진 URL 설정
             document.getElementById('profile-github-avatar').src = data.avatar_url;
         })
         .catch(error => {

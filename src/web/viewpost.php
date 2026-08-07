@@ -19,10 +19,10 @@ include("template/$OJ_TEMPLATE/header.php");
     <title>Post Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-	.space1 {/*여분 공간 크기 설정*/
+	.space1 {/* 여백 */
        margin-bottom: 10px; 
 }
-.space2 {/*여분 공간 크기 설정*/
+.space2 {/* 여백 */
        margin-top: 50px; 
 }
 
@@ -91,8 +91,8 @@ foreach($result as $row){
             		echo '<p class="text-gray-600">'.nl2br($rowc["content"]).'</p></div></div>';
 
 		}
-		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 했을 시 대댓글 달기 가능*/
-		$commentId = $row["comment_id"];/*대댓글 입력*/
+		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/* 로그인 상태에서만 대댓글 작성 가능 */
+		$commentId = $row["comment_id"];/* 대댓글 입력 */
 		echo '<div class = "space1"></div>';
 		echo '<button id="commentButton_' . $commentId . '" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="showCommentBox(' . $commentId . ')" style="float: right;">답글</button>';
    		echo '<div class = "space2"></div>';
@@ -110,9 +110,9 @@ foreach($result as $row){
 		echo '<div class = "space1"></div>';
 	}
 
-if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 했을시 댓글 달기 가능*/
+if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/* 로그인 상태에서만 댓글 작성 가능 */
 echo '<h2 class="text-lg font-semibold">댓글 달기</h2>
-<div id="commentBoxs" class="mt-4"><!--댓글 달기-->
+<div id="commentBoxs" class="mt-4"><!-- 댓글 입력 -->
 		<form method=POST action=comment_add.php?id='.$post_id.'>
 		<input type = "hidden" value = 0 name="parent_id">
 		<textarea class="w-full p-2 border rounded" placeholder="답글 입력" name="content"></textarea>

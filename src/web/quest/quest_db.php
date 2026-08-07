@@ -9,18 +9,18 @@ require_once('../include/memcache.php');
 require_once('../include/setlang.php');
 require_once('../include/bbcode.php');
 
-// 정보들 가져오기---------------------------------------------------------
+// 요청 파라미터
 $user = isset($_POST['user']) ? $_POST['user'] : '';
 $sql = "select quest_class, count(*) from quests group by quest_class";
 $result = pdo_query($sql);
 $daily_count = $result[0][1];
 $weekly_count = $result[1][1];
-$main_count = $result[2][1] + $result[3][1]; // 히든 + 메인
+$main_count = $result[2][1] + $result[3][1]; // 히든 + 메인 퀘스트 합산
 $sql = "SELECT qc.quest_class, IFNULL(COUNT(p.quest_class), 0) AS count FROM ( SELECT 1 AS quest_class UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) qc LEFT JOIN progress p ON qc.quest_class = p.quest_class AND p.user_id = '$user' AND p.user_prog = p.quest_end_prog AND p.quest_rec_rewards = 1 GROUP BY qc.quest_class";
 $result = pdo_query($sql);
 $daily_clear_count = $result[0][1];
 $weekly_clear_count = $result[1][1];
-$main_clear_count = $result[2][1] + $result[3][1]; // 히든 + 메인
+$main_clear_count = $result[2][1] + $result[3][1]; // 히든 + 메인 퀘스트 합산
 $quest = isset($_POST['quest']) ? $_POST['quest'] : '일일';
 if($quest =='일일') {
     $quest_class=1;
@@ -43,12 +43,12 @@ else {
     $quest_count = $main_count;
     $sql = "select q.*, p.* from progress p, quests q where p.user_id = '$user' and (q.quest_class = $quest_class or q.quest_class = 4) and  p.quest_id = q.quest_id order by p.quest_sort_weight desc";
 }
-//퀘스트 진행바 -----------------------------------------------------------------
+// 퀘스트 진행바
 echo '<div style="position:relative;width:100%;height:20px;margin-bottom:25px;"><div id="progressContainer_quest">
     <div id="progressBar_quest" style="width:'.$progress_percent.'%;"></div>
     <div id="progressText_quest">'.$clear_count.'/'.$quest_count.'</div>		    		    
 </div></div>';
-// 퀘스트 목록 -----------------------------------------------------------------
+// 퀘스트 목록
 $quest_list=pdo_query($sql);
 
 foreach($quest_list as $row){
@@ -57,8 +57,8 @@ if (mb_strlen($quest_name, 'UTF-8') > 25) {
     $quest_name = mb_substr($quest_name, 0, 25, 'UTF-8') . "...";
 }
 echo '<div style="position:relative;width:100%;height:132px;margin-bottom:30px;">';
-if($row["quest_rec_rewards"] == 0){ //보상 수령 안했을 경우
-	if($row["quest_class"]==4 && $row["user_prog"] < $row["quest_end_prog"]){//히든퀘이고 아직 완료 못했을 경우
+if($row["quest_rec_rewards"] == 0){ // 보상 미수령 상태
+	if($row["quest_class"]==4 && $row["user_prog"] < $row["quest_end_prog"]){// 히든 퀘스트 · 미완료 상태
 	echo '
 	<div class="quest-box flex-box">
 
@@ -137,7 +137,7 @@ if($row["quest_rec_rewards"] == 0){ //보상 수령 안했을 경우
         }
      echo '</div>';
     }
-}else{//보상 수령 한경우
+}else{// 보상 수령 완료
 
 echo '
 <div class="quest-box flex-box">

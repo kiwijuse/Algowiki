@@ -45,7 +45,7 @@
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
-            top: 100%; /* 드랍다운 메뉴를 버튼 아래로 표시하기 위해 top 속성 추가 */
+            top: 100%;
 
         }
 
@@ -91,7 +91,7 @@
             display: none;
         }
 .dropdown-scrollable {
-  max-height: 200px; /* 원하는 높이로 조절하세요 */
+  max-height: 200px;
   overflow-y: auto;
 }
 .pagination-container {
@@ -112,8 +112,8 @@
     user-select:none;
   }
 .pagination-item {
-    width: 25px; /* 고정된 너비 */
-    height: 36px; /* 고정된 높이 */
+    width: 25px;
+    height: 36px;
     display: inline-block;
     margin: 0 3px; /* Adjust the margin as needed */
     line-height: 36px; /* Ensure proper vertical alignment */

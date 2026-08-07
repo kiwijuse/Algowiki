@@ -80,7 +80,7 @@ color:#508FCD;
     <div id="problemList" style="position:relative;"></div>
     </div>
 <script>
-//뒤로가기 등 페이지 이동시에도 옵션 값 기억
+// 뒤로가기 등으로 돌아와도 선택한 옵션을 유지
 document.getElementById('Page').value='<?php echo $page; ?>';
 document.getElementById('pageset').value='<?php echo $pageset; ?>';
 document.getElementById('category').value='<?php echo $category; ?>';
@@ -97,10 +97,9 @@ if(f_show_tag == '1'){
 }
 
     window.onload = function() {
-        // 초기로드 시 setActive 함수 호출
         setActive(document.querySelectorAll('.sorting-criteria')[i]);
     };    	
-    //태그 표시 바꿀시
+    // '태그 표시' 토글 변경
     function change_tag(){
 	if(document.getElementById('show_tag').value==0){
 		document.getElementById('show_tag').value=1;	
@@ -111,9 +110,9 @@ if(f_show_tag == '1'){
 	applyFilter();
     }
 	
-    var $category = document.getElementById('category'); // hidden input 요소를 가져옴
-    var $page = document.getElementById('Page'); // hidden input 요소를 가져옴
-    j =0; //초기 로드시에 $page.value 와 pageset 값을 바꾸지 않기위해 초기값 설정을 위해 j변수 선언
+    var $category = document.getElementById('category'); 
+    var $page = document.getElementById('Page'); 
+    j =0; // 초기 로드 시에는 page·pageset 을 건드리지 않기 위한 플래그
 
 
     function toggleDropdown(selectedItem) {
@@ -135,9 +134,9 @@ if(f_show_tag == '1'){
     dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
     }
     function setActive(element) {
-        var buttonText = element.textContent.trim(); // 버튼 내부의 텍스트를 가져옴
+        var buttonText = element.textContent.trim(); 
 	var show_tag = document.getElementById('show_tag');
-        $category.value = buttonText; // $category의 value 값을 버튼 텍스트로 설정
+        $category.value = buttonText;
 	if(buttonText=="맞은 문제" || buttonText == "만든 문제"){	
 	show_tag.style.display= 'block';
 	}
@@ -152,7 +151,6 @@ if(f_show_tag == '1'){
 	document.getElementById('classification-dropdown').style.display = 'none';
         applyFilter();
     } 
-    // applyFilter 함수 정의
     function applyFilter() {
 	var category = $('#category').val();
         var page = $('#Page').val();
@@ -161,7 +159,7 @@ if(f_show_tag == '1'){
 	var user = <?php echo json_encode($user); ?>;
 	var view_user = <?php echo json_encode($view_user); ?>;
 	var is_admin = <?php echo json_encode($is_admin); ?>;
-        // jQuery를 사용하여 서버에 요청 및 결과 갱신
+        // 서버에서 조각 HTML을 받아 갱신
 	$.ajax({
     	type: 'POST',
     	url: './problem/userinfo_db.php',
@@ -179,7 +177,7 @@ if(f_show_tag == '1'){
     		}
 	});	
     }
-window.onbeforeunload = function() {//페이지를 떠날때 주소 저장
+window.onbeforeunload = function() {// 페이지를 떠날 때 현재 주소를 저장
     changeaddress();
 };
 function changeaddress(){
@@ -194,7 +192,7 @@ document.addEventListener("click", function(event) {
         }
     });
 window.onload = function() {
-    // 프로필 탭에 대한 라디오 버튼을 찾아서 checked 속성을 추가
+    // 현재 탭의 라디오 버튼을 선택 상태로 지정
     document.getElementById('tab2').checked = true;
     applyFilter();
 };

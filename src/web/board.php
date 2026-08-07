@@ -23,10 +23,8 @@ include("template/$OJ_TEMPLATE/footer.php");
 ?>
 <script>
     function performSearch() {
-        // 입력된 값 가져오기
         var searchValue = document.getElementById("searchInput").value;
 	var cateValue = document.getElementById("classification").value;
-        // 검색 결과 페이지로 이동
         window.location.href = "board.php?data=search&cate=" + encodeURIComponent(cateValue) + "&search=" + encodeURIComponent(searchValue);
     }
     function enter_check(e){
@@ -39,16 +37,13 @@ function showDropdown() {
   }
 
   function hideDropdown() {
-    // 드랍다운 숨기기
     setTimeout(function() {
       document.getElementById('classification-dropdown').style.display = 'none';
     }, 200);
   }
 
   function selectOption(option) {
-    // 선택된 옵션을 입력 상자에 설정
     document.getElementById('classification').value = option;
-    // 드랍다운 숨기기
     hideDropdown();
   }
 </script>

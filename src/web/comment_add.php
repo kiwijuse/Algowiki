@@ -25,7 +25,7 @@ $content = str_replace("</p>", "<br />", $content);
 $content = str_replace(",", "&#44;", $content);
 $sql = "INSERT INTO comment VALUES(?,?,?,?,?,now())";
 $result = pdo_query($sql,$comment_id,$post_id,$parent_id,$writer,$content);
-if($result==NULL){/*db insert 시도 실패시 컷*/
+if($result==NULL){/* INSERT 실패 시 중단 */
 echo "<script>alert('댓글 입력에 실패하였습니다.');</script>";
 }
 echo "<script>window.location.href='post_view.php?id=" . $post_id . "';</script>";

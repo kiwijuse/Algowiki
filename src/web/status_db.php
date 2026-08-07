@@ -9,7 +9,7 @@ require_once('../include/memcache.php');
 require_once('../include/setlang.php');
 require_once('../include/bbcode.php');
 
-// 정보들 가져오기
+// 요청 파라미터
 $page = isset($_POST['page']) ? $_POST['page'] : '1';
 $pageset = isset($_POST['pageset']) ? $_POST['pageset'] : '1';
 $problem_id = isset($_POST['problem_id']) ? $_POST['problem_id'] : '';

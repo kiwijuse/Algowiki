@@ -23,13 +23,13 @@ include("template/$OJ_TEMPLATE/header.php");
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-	.space1 {/*여분 공간 크기 설정*/
+	.space1 {/* 여백 */
        margin-bottom: 10px; 
 }
-.space2 {/*여분 공간 크기 설정*/
+.space2 {/* 여백 */
        margin-top: 50px; 
 }
-.space3 {/*여분 공간 크기 설정*/
+.space3 {/* 여백 */
        margin-top: 30px; 
 }
 
@@ -70,7 +70,7 @@ echo '<div class="bt_wrap left">
 		<a href="./board.php?data=report" class="on">제보</a>
 	</div><div class="space3"></div>';
 
-echo '<div class="bg-white shadow-md rounded p-6 mb-4" style="border: 2px solid #F2F2F2;">';/*게시글 크게 두르는 박스*/
+echo '<div class="bg-white shadow-md rounded p-6 mb-4" style="border: 2px solid #F2F2F2;">';/* 게시글 외곽 박스 */
 if($result[0][2]==$_SESSION[$OJ_NAME.'_user_id']||isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 	echo '<div style="text-align: right;">	
 	<button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="post_delete(' . $post_id . ')" style="float:right;">삭제</button>
@@ -98,7 +98,7 @@ echo '<h2 class="text-lg font-semibold mb-2">댓글</h2>';
 	
    	$sqlc = "SELECT * FROM `comment` where post_id = '$post_id' && parent_id = 0 order by 'create_time' desc";
 	$resultc = pdo_query($sqlc);
-	foreach($resultc as $row){/*댓글 표시*/
+	foreach($resultc as $row){/* 댓글 목록 */
         	echo '<div class="bg-gray-50 p-3" style="border-radius:15px;">';				
 		echo '<span style="display: inline-block; width: 50%;">' . 
         	'<a href="./userinfo.php?user=' . $row["writer"] . '" class="text-sm text-gray-500" style="font-size: 17px;">' . $row["writer"] . '</a>' . 
@@ -117,7 +117,7 @@ echo '<h2 class="text-lg font-semibold mb-2">댓글</h2>';
 
 		$sqlcc = "SELECT * FROM `comment` where post_id = '$post_id' && parent_id = ".$row["comment_id"]." order by 'create_time' desc";
 		$resultcc = pdo_query($sqlcc);
-		foreach($resultcc as $rowc){/*대댓글 표시*/
+		foreach($resultcc as $rowc){/* 대댓글 목록 */
 			echo '<div class = "space1"></div>';			
 			echo '<div class="border-t pt-2 ml-10"></div>';
 			echo '<span style="display: inline-block; width: 50%;">' . 
@@ -137,9 +137,9 @@ echo '<h2 class="text-lg font-semibold mb-2">댓글</h2>';
 		}
 		echo '</div>';
 
-		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 했을 시 대댓글 달기 가능*/
+		if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/* 로그인 상태에서만 대댓글 작성 가능 */
 		$commentId = $row["comment_id"];	
-		if($row["writer"]!='<del>Unknown</del>'){/*삭제된 댓글이면 답글 기능 X*/
+		if($row["writer"]!='<del>Unknown</del>'){/* 삭제된 댓글에는 답글 불가 */
 			echo '<div class = "space1"></div>';
 			echo '<button id="commentButton_' . $commentId . '" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="showCommentBox(' . $commentId . ')" style="float: right;">답글</button>';
    			echo '<div class = "space2"></div>';
@@ -153,16 +153,16 @@ echo '<h2 class="text-lg font-semibold mb-2">댓글</h2>';
 			}		
 		}		
 		echo '<div class = "space3"></div>';
-		if (next($resultc)) {/*다음이 있으면 줄과 공간 생성*/
+		if (next($resultc)) {/* 다음 댓글이 있으면 구분선 삽입 */
             		echo '<div class="border-t pt-4"></div>';
 			echo '<div class = "space1"></div>';
        		}
 		
 	}
 
-if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 했을시 댓글 달기 가능*/
+if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/* 로그인 상태에서만 댓글 작성 가능 */
 echo '<h2 class="text-lg font-semibold">댓글 달기</h2>
-<div id="commentBoxs" class="mt-4"><!--댓글 달기-->
+<div id="commentBoxs" class="mt-4"><!-- 댓글 입력 -->
 		<form method=POST action=comment_add.php?id='.$post_id.'>
 		<input type = "hidden" value = 0 name="parent_id">
 		<textarea class="w-full p-2 border rounded" placeholder="댓글 입력" name="content"></textarea>

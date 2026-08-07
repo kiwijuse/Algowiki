@@ -17,12 +17,12 @@ function sortByCountTag($a, $b)
 	$aIsEnglish = preg_match('/^[a-zA-Z]/', $a);
     	$bIsEnglish = preg_match('/^[a-zA-Z]/', $b);
 
-	if ($aIsEnglish && !$bIsEnglish) //a가 영어로 시작, b가 한글로 시작.
+	if ($aIsEnglish && !$bIsEnglish) // a는 영문, b는 한글로 시작
 		return 1;
-	elseif (!$aIsEnglish && $bIsEnglish) // a가 한글로 시작, b가 영어로 시작.
+	elseif (!$aIsEnglish && $bIsEnglish) // a는 한글, b는 영문으로 시작
 		return -1;
 
-	//성분이 같을 땐 가나다 순 정렬
+	// 같은 언어끼리는 가나다 순 정렬
 	return strcmp($a, $b);
 
 
@@ -75,7 +75,7 @@ function sortByCountTag($a, $b)
 			$view_category .= "<a href='#' onclick='redirectToproblem(\"".htmlentities(urlencode($cat), ENT_QUOTES, 'utf-8')."\")'><span>".htmlentities($cat_,ENT_QUOTES,'utf-8')."</span></a></td>";
 			
 			
-			//영문 출력------------------------------------------------------------------------------------------------------
+			// 영문명 열
                         $sql= "select tag_name_en FROM tag where tag_name = '".$cat."'";
                         $result = mysql_query_cache( $sql );
 			$en_str = str_replace('_', ' ', $result[0]["tag_name_en"]);			
@@ -85,7 +85,6 @@ function sortByCountTag($a, $b)
 			$view_category .= "<a href='#' onclick='redirectToproblem(\"".htmlentities(urlencode($cat), ENT_QUOTES, 'utf-8')."\")'><span>".htmlentities($en_str,ENT_QUOTES,'utf-8')."</span></a></td>";
 			
 			
-			//------------------------------------------------------------------------------------------------------
 			$view_category .= "<td style='width: 10%; vertical-align:middle;'><center><div class=problem-count>".$count_tag[$cat]."</div><center></td>";
 			$view_category .= "<td style='width: 10%; vertical-align:middle;'>";		
 			$file_name = str_replace("_", " ", $cat);

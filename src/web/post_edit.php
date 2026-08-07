@@ -12,7 +12,7 @@ $result = false;
 <?php $show_title="게시글 수정 - AlgoWiki"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");
 
-if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 안했을 시 로그인 페이지로 이동*/
+if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/* 비로그인 상태면 로그인 페이지로 이동 */
 	echo "<script>location.href='./loginpage.php'</script>";
 }
 $post_id=intval($_GET["id"]);
@@ -23,7 +23,7 @@ $title = $result[0][1];
 $content = $result[0][2];
 $category = $result[0][3];
 $writer=$result[0][4];
-if ($_SESSION[$OJ_NAME.'_'.'user_id']!=$writer && !isset($_SESSION[$OJ_NAME.'_'.'administrator'])){/*작성자랑 로그인 한 사람이랑 다르거나 운영자가 아니면*/
+if ($_SESSION[$OJ_NAME.'_'.'user_id']!=$writer && !isset($_SESSION[$OJ_NAME.'_'.'administrator'])){/* 작성자 본인 또는 운영자가 아니면 접근 차단 */
 	echo "<script>location.href='./board.php'</script>";
 }
 ?>
@@ -128,17 +128,13 @@ if ($_SESSION[$OJ_NAME.'_'.'user_id']!=$writer && !isset($_SESSION[$OJ_NAME.'_'.
     document.getElementById('classification-dropdown').style.display = 'block';
   }
   function hideDropdown() {
-    // 드랍다운 숨기기
     setTimeout(function() {
       document.getElementById('classification-dropdown').style.display = 'none';
     }, 200);
   }
   function selectOption(option) {
-    // 선택된 옵션에 대한 처리
     console.log('선택된 옵션:', option);
-    // 선택된 옵션을 입력 상자에 설정
     document.getElementById('classification').value = option;
-    // 드랍다운 숨기기
     hideDropdown();
   }
   function saveContent() {

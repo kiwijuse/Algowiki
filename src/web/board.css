@@ -310,7 +310,7 @@ font-family: 'GmarketSansMedium', sans-serif;
    display: flex;
    justify-content: center;
   align-items: center;
-   position: relative; /* 부모 요소에 상대 위치 설정 */
+   position: relative;
   outline: none;
 }
 .search-btn{
@@ -343,19 +343,19 @@ font-family: 'GmarketSansMedium', sans-serif;
     background-color: white;
 }
 #classification-dropdown a {
-    display: block; /* 각 항목을 블록 요소로 표시하여 세로로 나타나게 함 */
-    padding: 8px; /* 각 항목에 패딩을 추가하여 간격 조절 */
+    display: block;
+    padding: 8px;
     text-decoration: none;
-    color: #333; /* 항목 색상 설정 */
+    color: #333;
 }
 #classification-dropdown a:hover {
-    background-color: #f5f5f5; /* 마우스 호버 시 배경 색상 변경 */
+    background-color: #f5f5f5;
 }
 .vertical-line {
-    border-left: 1.5px solid black; /* 세로 선 스타일 및 색상 설정 */
-    height: 100%; /* 세로 선의 높이를 부모 요소의 높이에 맞춤 */
+    border-left: 1.5px solid black;
+    height: 100%;
     position: absolute;
-    left: 22%; /* 가운데 정렬을 위해 왼쪽 위치 조정 */
+    left: 22%;
 
 }
 .shadow {

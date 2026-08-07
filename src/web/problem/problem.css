@@ -44,7 +44,7 @@
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    top: 100%; /* 드랍다운 메뉴를 버튼 아래로 표시하기 위해 top 속성 추가 */
+    top: 100%;
 }
 .dropdown-content a {
     color: black;

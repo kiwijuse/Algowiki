@@ -9,7 +9,7 @@ require_once('../include/memcache.php');
 require_once('../include/setlang.php');
 require_once('../include/bbcode.php');
 
-// 정보들 가져오기
+// 요청 파라미터
 $sorting = isset($_POST['sorting']) ? $_POST['sorting'] : '전체';
 $filter1 = isset($_POST['filter1']) ? $_POST['filter1'] : 'none';
 $filter2 = isset($_POST['filter2']) ? $_POST['filter2'] : 'none';
@@ -23,7 +23,7 @@ $user_id = $_SESSION[$OJ_NAME.'_'.'user_id'];
 $show_tag = pdo_query("select show_tag from uinfo where user_id = '$user_id'")[0][0];
 $show_difficulty = pdo_query("select show_difficulty from uinfo where user_id = '$user_id'")[0][0];
 
-//필터 정보들은 공백을 포함하지만 db에는 공백 대신 _ 로 저장되어 있으므로 db 검색을 위한 치환
+// 태그명은 화면에서 공백을 쓰지만 DB에는 _ 로 저장되어 있어 치환 필요
 $filter1 = str_replace(' ', '_', $filter1);
 $filter2 = str_replace(' ', '_', $filter2);
 $filter3 = str_replace(' ', '_', $filter3);
@@ -34,7 +34,7 @@ $filter3 = str_replace("Mo's", "Mos", $filter3);
 
 $search = str_replace( ' ', '', $search);
 
-//정렬 기준
+// 정렬 기준
 if ($sorting == '전체')
   $orderby = "problem_id asc limit $paged, 9";
 else if ($sorting == '인기')
@@ -46,10 +46,10 @@ else if ($sorting == '어려움')
 else
   $orderby = "problem_id desc limit $paged, 9";
 
-// 필터 선택 안했을경우
+// 필터 미선택
 if ($filter1 == NULL) {
-  if($show_problem==1){// 맞은 문제 표시를 켠 경우
-	if(!$search){//검색한게 있으면
+  if($show_problem==1){// '맞은 문제 표시' 켬
+	if(!$search){// 검색어 없음
 	$sql = "select * from problem where defunct = 'N' order by $orderby";
 	$count_sql = "SELECT COUNT(*) FROM problem where defunct = 'N'";
 	}
@@ -58,7 +58,7 @@ if ($filter1 == NULL) {
 	$count_sql = "select count(*) from problem where (instr(replace(title, ' ', ''), '$search') > 0 or instr(replace(description, ' ', ''), '$search') > 0) and defunct = 'N'";
 	}
   }
-  else{// 맞은 문제 표시를 끈 경우
+  else{// '맞은 문제 표시' 끔
 	if(!$search){
 	$sql ="select problem.* from problem left join accept on problem.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and defunct = 'N' order by $orderby";
   	$count_sql = "select count(*) from problem left join accept on problem.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and defunct = 'N'";
@@ -70,9 +70,9 @@ if ($filter1 == NULL) {
 	}
   }
 }
-// 필터 선택 1개일때
+// 필터 1개 선택
 else if ($filter1 != NULL && $filter2 == NULL) {
-  if($show_problem==1){// 맞은 문제 표시를 켠 경우
+  if($show_problem==1){// '맞은 문제 표시' 켬
 	if(!$search){
 	$sql = "select * from $filter1 where defunct = 'N' order by $orderby";
 	$count_sql = "SELECT COUNT(*) FROM $filter1 where defunct = 'N'";
@@ -82,7 +82,7 @@ else if ($filter1 != NULL && $filter2 == NULL) {
 	$count_sql = "SELECT COUNT(*) FROM $filter1 where (instr(replace(title, ' ', ''), '$search') > 0 or instr(replace(description, ' ', ''), '$search') > 0) and defunct = 'N'";
 	}
   }
-  else {// 맞은 문제 표시를 끈 경우
+  else {// '맞은 문제 표시' 끔
 	if(!$search){
 	$sql ="select $filter1.* from $filter1 left join accept on $filter1.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and defunct = 'N' order by $orderby";
   	$count_sql = "select count(*) from $filter1 left join accept on $filter1.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and defunct = 'N'";
@@ -93,9 +93,9 @@ else if ($filter1 != NULL && $filter2 == NULL) {
 	}
   }   
 }
-// 필터 선택 2개일때
+// 필터 2개 선택
 else if ($filter1 != NULL && $filter2 != NULL && $filter3 == NULL) {
-  if($show_problem==1){// 맞은 문제 표시를 켠 경우
+  if($show_problem==1){// '맞은 문제 표시' 켬
 	if(!$search){
 	$sql = "select $filter1.* from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id where $filter1.defunct = 'N' order by $orderby";
 	$count_sql = "select COUNT(*) from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id where $filter1.defunct = 'N'";
@@ -105,7 +105,7 @@ else if ($filter1 != NULL && $filter2 != NULL && $filter3 == NULL) {
 	$count_sql = "select COUNT(*) from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id where (instr(replace($filter1.title, ' ', ''), '$search') > 0 or instr(replace($filter1.description, ' ', ''), '$search') > 0) and $filter1.defunct = 'N'";
 	}
   }
-  else {// 맞은 문제 표시를 끈 경우
+  else {// '맞은 문제 표시' 끔
 	if(!$search){
 	$sql = "select $filter1.* from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id left join accept on $filter1.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and $filter1.defunct = 'N' order by $orderby";
 	$count_sql = "select COUNT(*) from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id left join accept on $filter1.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and $filter1.defunct = 'N'";
@@ -116,9 +116,9 @@ else if ($filter1 != NULL && $filter2 != NULL && $filter3 == NULL) {
 	}
   }
 }
-// 필터 선택 3개일때
+// 필터 3개 선택
 else {
-  if($show_problem==1){//맞은 문제 표시를 켠 경우
+  if($show_problem==1){// '맞은 문제 표시' 켬
 	if(!$search){
 	$sql = "select $filter1.* from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id inner join $filter3 on $filter2.problem_id = $filter3.problem_id where $filter1.defunct = 'N' order by $orderby";
  	$count_sql = "select COUNT(*) from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id inner join $filter3 on $filter2.problem_id = $filter3.problem_id where $filter1.defunct = 'N'";
@@ -128,7 +128,7 @@ else {
  	$count_sql = "select COUNT(*) from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id inner join $filter3 on $filter2.problem_id = $filter3.problem_id where (instr(replace($filter1.title, ' ', ''), '$search') > 0 or instr(replace($filter1.description, ' ', ''), '$search') > 0) and $filter1.defunct = 'N'";
 	}
   }
-  else {//맞은 문제 표시를 끈 경우
+  else {// '맞은 문제 표시' 끔
 	if(!$search){
 	$sql = "select $filter1.* from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id inner join $filter3 on $filter2.problem_id = $filter3.problem_id left join accept on $filter1.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and $filter1.defunct = 'N' order by $orderby";
   	$count_sql = "select COUNT(*) from $filter1 inner join $filter2 on $filter1.problem_id = $filter2.problem_id inner join $filter3 on $filter2.problem_id = $filter3.problem_id left join accept on $filter1.problem_id = accept.problem_id and accept.user_id = '$user_id' where accept.problem_id is null and $filter1.defunct = 'N'";
@@ -139,7 +139,7 @@ else {
 	}
   }
 }
-if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){//운영자 일시 숨긴문제 표시
+if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){// 운영자에게는 숨김 처리된 문제도 표시
 $sql = str_replace("where defunct = 'N'", '', $sql);
 $sql = str_replace("and defunct = 'N'", '', $sql);
 $sql = str_replace("where $filter1.defunct = 'N'", '', $sql);
@@ -154,10 +154,10 @@ $count_result = pdo_query($count_sql);
 $i = 0;
 foreach ($result as $row) {
 $card = '<div class="question-card bg-white p-4" style = " position:relative; border-radius: 10px;border: 1px solid #E2E3E4; height:300px; cursor: pointer;" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
-  if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){//로그인 했으면 틀린문제 맞은문제 표시
+  if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){// 로그인 상태면 맞은 문제 / 틀린 문제를 구분해 표시
 	$sql = "select distinct user_id from solution where problem_id = ".$row["problem_id"];
   	$problem_solve = pdo_query($sql);
-  	foreach ($problem_solve as $solve_row){//틀린문제 있는지 확인
+  	foreach ($problem_solve as $solve_row){// 틀린 이력이 있는지 확인
 		if($solve_row["user_id"] == $_SESSION[$OJ_NAME.'_'.'user_id']){
 		$card = '<div class="question-card bg-white p-4" style="position:relative; border-radius: 10px; height:300px; cursor: pointer; box-shadow: 0 4px 8px rgba(251, 125, 125, 0.2), 0 0 10px rgba(251, 125, 125, 0.1); border: 1px solid rgba(251, 125, 125, 0.3);" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
 		break;
@@ -165,20 +165,20 @@ $card = '<div class="question-card bg-white p-4" style = " position:relative; bo
 	}
 	$sql = "select distinct user_id from solution where result =4 and problem_id = ".$row["problem_id"];
   	$problem_solve = pdo_query($sql);
-  	foreach ($problem_solve as $solve_row){//맞은 문제 있는지 확인
+  	foreach ($problem_solve as $solve_row){// 맞힌 이력이 있는지 확인
 		if($solve_row["user_id"] == $_SESSION[$OJ_NAME.'_'.'user_id']){
 		$card = '<div class="question-card bg-white p-4" style="position:relative; border-radius: 10px; height:300px; cursor: pointer; box-shadow: 0 4px 8px rgba(125, 251, 125, 0.2), 0 0 10px rgba(125, 251, 125, 0.1); border: 1px solid rgba(100, 251, 100, 0.4);" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
 		break;
 		}
 	}	
   }
-  if ($i % 3 == 0) echo '<div style="display: flex;margin:0 auto;">'; // 3개씩 한 라인에 보여줌
-  $description = strip_tags($row["description"]); // HTML 태그 제거
-  $max_length = 230; // 최대 길이 설정
+  if ($i % 3 == 0) echo '<div style="display: flex;margin:0 auto;">'; // 한 줄에 카드 3개
+  $description = strip_tags($row["description"]); // 미리보기용 — HTML 태그 제거
+  $max_length = 230; // 미리보기 최대 길이
   $difficulty = $diff_class[$row["difficulty"]];
   $difficulty_color = $diff_color[$row["difficulty"]];
   $difficulty_src = $diff_src_s[$row["difficulty"]];
-  if (mb_strlen($description) > $max_length) { //최대 길이 넘어가면 ... 으로 뒷내용 숨기기
+  if (mb_strlen($description) > $max_length) { // 최대 길이를 넘으면 말줄임 처리
     $description = mb_substr($description, 0, $max_length) . ' ...';
   }
   echo '<div class="p_box">';  
@@ -247,7 +247,7 @@ while($i%3!=0){
 echo '</div>';
 
 
-//문제수를 이용해 페이지수 계산
+// 전체 문제 수로 페이지 수 계산
 $problem_count = $count_result[0][0];
 $max_problems_per_page = 9;
 $max_pages = 5;
@@ -260,7 +260,7 @@ echo '<div style="position: absolute; bottom: 65px; left: 0; right: 0; margin-le
     <div id="singleLeft" class="arrow"><center>&lsaquo;</center></div>';
 
 for ($i = $start_page; $i <= $total_pages; $i++) {
-  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 번째 페이지를 선택 상태로 지정
+  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 페이지를 선택 상태로 지정
   echo '<div id="page' . $i . '" class="pagination-item ' . $selected_class . '" >' . $i . '</div>';
 }
 

@@ -29,7 +29,7 @@ if(empty($problem_id)){
 else{
 	$sql2 = "select count(*) from problem where problem_id = '$problem_id' and defunct = 'N'";
 	$result2 = pdo_query($sql2);
-	if($result2[0][0] == 0){/*문제 번호가 존재하는 문제가 아닐경우 컷*/
+	if($result2[0][0] == 0){/* 존재하지 않는 문제 번호면 중단 */
 	echo "<script>alert('게시글 수정에 실패했습니다.\\n게시글 제목 - 4글자 이상\\n문제번호 - 현재 존재하는 문제번호만 가능\\n내용 - 4글자 이상');</script>";
 	echo "<script>window.location.href='board.php';</script>";
 	exit(0);
@@ -44,13 +44,13 @@ $current_time = pdo_query($sqlx);
 $time_last = new DateTime($last_time[0][0]);
 $time_current = new DateTime($current_time[0][0]);
 $time_difference = $time_current->getTimestamp() - $time_last->getTimestamp();
-if($time_difference < 20){/*마지막 게시글 작성,수정 시간과 20초 이상 차이가 안날경우 컷*/
+if($time_difference < 20){/* 마지막 작성·수정 후 20초가 지나지 않았으면 중단 (도배 방지) */
 	echo "<script>alert('너무 빠릅니다.\\n잠시후 다시 시도해주세요.');</script>";
 	echo "<script>window.location.href='board.php';</script>";
 	exit(0);
 }
 $result = pdo_query($sql);
-if($result==NULL){/*db insert 시도 실패시 컷*/
+if($result==NULL){/* INSERT 실패 시 중단 */
 echo "<script>alert('게시글 수정에 실패했습니다.\\n게시글 제목 - 4글자 이상\\n문제번호 - 현재 존재하는 문제번호만 가능\\n내용 - 4글자 이상');</script>";
 echo "<script>window.location.href='board.php?';";
 }

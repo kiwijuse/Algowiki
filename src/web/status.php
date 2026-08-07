@@ -139,7 +139,7 @@ function status_ajax() {
 	var grading_result = $('#grading_result').val();
         var page = $('#page').val();
 	var pageset = $('#pageset').val();
-        // jQuery를 사용하여 서버에 요청 및 결과 갱신
+        // 서버에서 조각 HTML을 받아 갱신
 	$.ajax({
     	type: 'POST',
     	url: './problem/status_db.php',
@@ -164,7 +164,7 @@ function page_ajax() {
 	var grading_result = $('#grading_result').val();
         var page = $('#page').val();
 	var pageset = $('#pageset').val();
-        // jQuery를 사용하여 서버에 요청 및 결과 갱신
+        // 서버에서 조각 HTML을 받아 갱신
 	$.ajax({
     	type: 'POST',
     	url: './problem/status_page_db.php',
@@ -188,11 +188,11 @@ function change_check_ajax() {
     var compile_language = $('#compile_language').val();
     var grading_result = $('#grading_result').val();
     var page = $('#page').val();
-    // jQuery를 사용하여 서버에 요청 및 결과 갱신
+    // 서버에서 조각 HTML을 받아 갱신
     $.ajax({
         type: 'POST',
         url: './problem/status_change_check.php',
-        // cache 매개변수를 false로 설정하여 캐시를 비활성화합니다.
+        // 캐시 비활성화
         cache: false,
         data: {
             problem_id: problem_id,

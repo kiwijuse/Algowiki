@@ -38,7 +38,7 @@ body {
             padding: 20px 0 0;
             border-top: 1px solid #ddd;}
 
-        /*라디오버튼 숨김*/
+        /* 라디오 버튼 숨김 — 탭 상태를 CSS만으로 관리 */
           input {
               display: none;}
 
@@ -56,7 +56,7 @@ body {
             color: #2e9cdf;
             cursor: pointer;}
 
-        /*input 클릭시, label 스타일*/
+        /* 선택된 탭의 라벨 스타일 */
         input:checked + label {
               color: #555;
               border: 1px solid #ddd;
@@ -94,7 +94,7 @@ margin-bottom: 150px;
     <input id="tab2" type="radio" name="tabs" checked>
     <label for="tab2" onclick="changeTab('problem')">기록</label>
     <?php 
-    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){//운영자이거나, 본인일 경우에만 보임
+    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){// 본인 또는 운영자에게만 노출
     ?>
     <input id="tab3" type="radio" name="tabs">
     <label for="tab3" onclick="changeTab('quest')">퀘스트</label>

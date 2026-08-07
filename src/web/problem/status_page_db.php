@@ -9,7 +9,7 @@ require_once('../include/memcache.php');
 require_once('../include/setlang.php');
 require_once('../include/bbcode.php');
 
-// 정보들 가져오기
+// 요청 파라미터
 $page = isset($_POST['page']) ? $_POST['page'] : '1';
 $pageset = isset($_POST['pageset']) ? $_POST['pageset'] : '1';
 $problem_id = isset($_POST['problem_id']) ? $_POST['problem_id'] : '';
@@ -59,7 +59,7 @@ echo '<div style="width:350px; border-radius:20px; height:40px;display: flex; fl
     <div id="singleLeft" class="arrow"><center>&lsaquo;</center></div>';
 
 for ($i = $start_page; $i <= $total_pages; $i++) {
-  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 번째 페이지를 선택 상태로 지정
+  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 페이지를 선택 상태로 지정
   echo '<div id="page' . $i . '" class="pagination-item ' . $selected_class . '" >' . $i . '</div>';
 }
 echo '<div id="singleRight" class="arrow"><center>&rsaquo;</center></div>

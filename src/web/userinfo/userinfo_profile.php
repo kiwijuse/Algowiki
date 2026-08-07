@@ -47,7 +47,7 @@ require_once( './include/bbcode.php' );
             padding: 20px 0 0;
             border-top: 1px solid #ddd;}
 
-        /*라디오버튼 숨김*/
+        /* 라디오 버튼 숨김 — 탭 상태를 CSS만으로 관리 */
           input {
               display: none;}
 
@@ -65,7 +65,7 @@ require_once( './include/bbcode.php' );
             color: #2e9cdf;
             cursor: pointer;}
 
-        /*input 클릭시, label 스타일*/
+        /* 선택된 탭의 라벨 스타일 */
         input:checked + label {
               color: #555;
               border: 1px solid #ddd;
@@ -95,8 +95,8 @@ require_once( './include/bbcode.php' );
 	}
 	
 	progress {
-        width: 150px; /* 프로그래스 바의 폭을 조절할 수 있습니다. */
-        height: 20px; /* 프로그래스 바의 높이를 조절할 수 있습니다. */
+        width: 150px;
+        height: 20px;
     }
 
     #progressContainer {
@@ -189,7 +189,7 @@ color:#686868;
     <input id="tab2" type="radio" name="tabs">
     <label for="tab2" onclick="changeTab('problem')">기록</label>
     <?php 
-    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){//운영자이거나, 본인일 경우에만 보임
+    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){// 본인 또는 운영자에게만 노출
     ?>
     <input id="tab3" type="radio" name="tabs">
     <label for="tab3" onclick="changeTab('quest')">퀘스트</label>
@@ -415,7 +415,7 @@ color:#686868;
 				$result = pdo_query($sql);
 				foreach($result as $row){
 					$divs = "<a href=problem.php?id=".$row["problem_id"]." class = 'ui basic label' style = 'margin-bottom:5px;margin-left:5px;'>".$row["problem_id"]."</a>";
-					if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){//로그인 했으면											
+					if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){// 로그인 상태
 						$login_user = $_SESSION[$OJ_NAME.'_'.'user_id'];	
 						$sql= "select result from solution where user_id = '$login_user' and problem_id = '".$row["problem_id"]."' and result > 4";											
 						$false_problem = pdo_query($sql);
@@ -470,7 +470,7 @@ color:#686868;
 				$result = pdo_query($sql);
 				foreach($result as $row){
 					$divs = "<a href=problem.php?id=".$row["problem_id"]." class = 'ui basic label' style = 'margin-bottom:5px;margin-left:5px;'>".$row["problem_id"]."</a>";
-					if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){//로그인 했으면											
+					if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){// 로그인 상태
 						$login_user = $_SESSION[$OJ_NAME.'_'.'user_id'];	
 						$sql= "select result from solution where user_id = '$login_user' and problem_id = '".$row["problem_id"]."' and result > 4";											
 						$false_problem = pdo_query($sql);
@@ -622,9 +622,8 @@ color:#686868;
         document.getElementById('pie_chart_legend').innerHTML = pie.generateLegend();
     });
 
-// 사용자 이름을 지정
     var username = '<?php echo $git;?>';
-    // GitHub API를 통해 프로필 사진 URL 가져오기
+    // GitHub API에서 아바타 URL 조회
     fetch(`https://api.github.com/users/${username}`)
         .then(response => {
             if (!response.ok) {
@@ -633,23 +632,20 @@ color:#686868;
             return response.json();
         })
         .then(data => {
-            // 이미지 태그의 src 속성에 프로필 사진 URL 설정
             document.getElementById('github-avatar').src = data.avatar_url;
         })
         .catch(error => {
 	    document.getElementById('github-avatar').src = '/image/mainicon.png';            
         });
 
-//프로그래스 바
+// 진행바
 	function showTooltip(needExp, maxExp) {
     var progressBar = document.getElementById('progressBar');
     var tooltip = document.getElementById('tooltip');
 
-    // 툴팁 내용 설정
     var tooltipText = needExp + ' / ' + maxExp;
     tooltip.innerText = tooltipText;
 
-    // 툴팁 위치 설정
     tooltip.style.display = 'block';
   }
 
@@ -668,7 +664,7 @@ function changeTab(tabId) {
     window.location.href = "userinfo.php?user=<?php echo $user;?>&tab=" + tabId;
 }
 window.onload = function() {
-    // 프로필 탭에 대한 라디오 버튼을 찾아서 checked 속성을 추가
+    // 현재 탭의 라디오 버튼을 선택 상태로 지정
     document.getElementById('tab1').checked = true;
 };
 </script>

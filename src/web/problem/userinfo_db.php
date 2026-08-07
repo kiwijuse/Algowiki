@@ -9,7 +9,7 @@ require_once('../include/memcache.php');
 require_once('../include/setlang.php');
 require_once('../include/bbcode.php');
 
-// 정보들 가져오기
+// 요청 파라미터
 $category = isset($_POST['category']) ? $_POST['category'] : '채점현황';
 $page = isset($_POST['page']) ? $_POST['page'] : '1';
 $pageset = isset($_POST['pageset']) ? $_POST['pageset'] : '1';
@@ -18,7 +18,7 @@ $paged = ($page - 1) * 9;
 $user = isset($_POST['user']) ? $_POST['user'] : '';
 $view_user = isset($_POST['view_user']) ? $_POST['view_user'] : '';
 $is_admin = isset($_POST['is_admin']) ? $_POST['is_admin'] : '';
-//정렬 기준
+// 정렬 기준
 if ($category == "채점 현황"){
 echo '<div style="position: relative;">';
 echo '<table class="table table-borderd table-stroped">
@@ -114,7 +114,7 @@ echo '<div style="position: absolute; bottom: -50px; left: 0; right: 0; margin-l
     <div id="singleLeft" class="arrow"><center>&lsaquo;</center></div>';
 
 for ($i = $start_page; $i <= $total_pages; $i++) {
-  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 번째 페이지를 선택 상태로 지정
+  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 페이지를 선택 상태로 지정
   echo '<div id="page' . $i . '" class="pagination-item ' . $selected_class . '" >' . $i . '</div>';
 }
 
@@ -124,7 +124,7 @@ echo '<div id="singleRight" class="arrow"><center>&rsaquo;</center></div>
 }
 
 
-// -----------------------------맞은 문제------------------------------------------
+// ── 맞은 문제 ──
 
 else if($category == "맞은 문제"){
     $sql = "select * from problem p inner join accept a on p.problem_id = a.problem_id where a.user_id = '$user' and p.defunct ='N' order by p.problem_id asc limit $paged,9";
@@ -135,10 +135,10 @@ else if($category == "맞은 문제"){
 
 foreach ($result as $row) {
 $card = '<div class="question-card bg-white p-4" style = " position:relative; border-radius: 10px;border: 1px solid #E2E3E4; height:300px; cursor: pointer;" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
-    if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){//로그인 했으면 틀린문제 맞은문제 표시
+    if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){// 로그인 상태면 맞은 문제 / 틀린 문제를 구분해 표시
 	$sql = "select distinct user_id from solution where problem_id = ".$row["problem_id"];
   	$problem_solve = pdo_query($sql);
-  	foreach ($problem_solve as $solve_row){//틀린문제 있는지 확인
+  	foreach ($problem_solve as $solve_row){// 틀린 이력이 있는지 확인
 		if($solve_row["user_id"] == $_SESSION[$OJ_NAME.'_'.'user_id']){
 		$card = '<div class="question-card bg-white p-4" style="position:relative; border-radius: 10px; height:300px; cursor: pointer; box-shadow: 0 4px 8px rgba(251, 125, 125, 0.2), 0 0 10px rgba(251, 125, 125, 0.1); border: 1px solid rgba(251, 125, 125, 0.3);" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
 		break;
@@ -146,7 +146,7 @@ $card = '<div class="question-card bg-white p-4" style = " position:relative; bo
 	}
 	$sql = "select distinct user_id from solution where result =4 and problem_id = ".$row["problem_id"];
   	$problem_solve = pdo_query($sql);
-  	foreach ($problem_solve as $solve_row){//맞은 문제 있는지 확인
+  	foreach ($problem_solve as $solve_row){// 맞힌 이력이 있는지 확인
 		if($solve_row["user_id"] == $_SESSION[$OJ_NAME.'_'.'user_id']){
 		$card = '<div class="question-card bg-white p-4" style="position:relative; border-radius: 10px; height:300px; cursor: pointer; box-shadow: 0 4px 8px rgba(125, 251, 125, 0.2), 0 0 10px rgba(125, 251, 125, 0.1); border: 1px solid rgba(100, 251, 100, 0.4);" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
 		break;
@@ -154,10 +154,10 @@ $card = '<div class="question-card bg-white p-4" style = " position:relative; bo
 	}	
   }
   
-if ($i % 3 == 0) echo '<div style="display:flex;margin-left:7px;">'; // 3개씩 한 라인에 보여줌
-  $description = strip_tags($row["description"]); // HTML 태그 제거
-  $max_length = 200; // 최대 길이 설정
-  if (mb_strlen($description) > $max_length) { //최대 길이 넘어가면 ... 으로 뒷내용 숨기기
+if ($i % 3 == 0) echo '<div style="display:flex;margin-left:7px;">'; // 한 줄에 카드 3개
+  $description = strip_tags($row["description"]); // 미리보기용 — HTML 태그 제거
+  $max_length = 200; // 미리보기 최대 길이
+  if (mb_strlen($description) > $max_length) { // 최대 길이를 넘으면 말줄임 처리
     $description = mb_substr($description, 0, $max_length) . ' ...';
   }
   echo '<div class="w_p">';  
@@ -208,7 +208,7 @@ echo '<div style="position: absolute; bottom: -30px; left: 0; right: 0; margin-l
     <div id="singleLeft" class="arrow"><center>&lsaquo;</center></div>';
 
 for ($i = $start_page; $i <= $total_pages; $i++) {
-  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 번째 페이지를 선택 상태로 지정
+  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 페이지를 선택 상태로 지정
   echo '<div id="page' . $i . '" class="pagination-item ' . $selected_class . '" >' . $i . '</div>';
 }
 
@@ -236,10 +236,10 @@ else{
 
 foreach ($result as $row) {
 $card = '<div class="question-card bg-white p-4" style = " position:relative; border-radius: 10px;border: 1px solid #E2E3E4; height:300px; cursor: pointer;" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
-  if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){//로그인 했으면 틀린문제 맞은문제 표시
+  if (isset($_SESSION[$OJ_NAME.'_'.'user_id'])){// 로그인 상태면 맞은 문제 / 틀린 문제를 구분해 표시
 	$sql = "select distinct user_id from solution where problem_id = ".$row["problem_id"];
   	$problem_solve = pdo_query($sql);
-  	foreach ($problem_solve as $solve_row){//틀린문제 있는지 확인
+  	foreach ($problem_solve as $solve_row){// 틀린 이력이 있는지 확인
 		if($solve_row["user_id"] == $_SESSION[$OJ_NAME.'_'.'user_id']){
 		$card = '<div class="question-card bg-white p-4" style="position:relative; border-radius: 10px; height:300px; cursor: pointer; box-shadow: 0 4px 8px rgba(251, 125, 125, 0.2), 0 0 10px rgba(251, 125, 125, 0.1); border: 1px solid rgba(251, 125, 125, 0.3);" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
 		break;
@@ -247,7 +247,7 @@ $card = '<div class="question-card bg-white p-4" style = " position:relative; bo
 	}
 	$sql = "select distinct user_id from solution where result =4 and problem_id = ".$row["problem_id"];
   	$problem_solve = pdo_query($sql);
-  	foreach ($problem_solve as $solve_row){//맞은 문제 있는지 확인
+  	foreach ($problem_solve as $solve_row){// 맞힌 이력이 있는지 확인
 		if($solve_row["user_id"] == $_SESSION[$OJ_NAME.'_'.'user_id']){
 		$card = '<div class="question-card bg-white p-4" style="position:relative; border-radius: 10px; height:300px; cursor: pointer; box-shadow: 0 4px 8px rgba(125, 251, 125, 0.2), 0 0 10px rgba(125, 251, 125, 0.1); border: 1px solid rgba(100, 251, 100, 0.4);" onclick="ToAddress(\'' . $row["problem_id"] . '\')">';
 		break;
@@ -255,10 +255,10 @@ $card = '<div class="question-card bg-white p-4" style = " position:relative; bo
 	}	
   }
 
-if ($i % 3 == 0) echo '<div style="display:flex;margin-left:7px;">'; // 3개씩 한 라인에 보여줌
-  $description = strip_tags($row["description"]); // HTML 태그 제거
-  $max_length = 200; // 최대 길이 설정
-  if (mb_strlen($description) > $max_length) { //최대 길이 넘어가면 ... 으로 뒷내용 숨기기
+if ($i % 3 == 0) echo '<div style="display:flex;margin-left:7px;">'; // 한 줄에 카드 3개
+  $description = strip_tags($row["description"]); // 미리보기용 — HTML 태그 제거
+  $max_length = 200; // 미리보기 최대 길이
+  if (mb_strlen($description) > $max_length) { // 최대 길이를 넘으면 말줄임 처리
     $description = mb_substr($description, 0, $max_length) . ' ...';
   }
   echo '<div class="w_p">';  
@@ -297,7 +297,7 @@ if ($i % 3 == 0) echo '<div style="display:flex;margin-left:7px;">'; // 3개씩 
 }
 echo '</div><div style="padding: 20px;"></div>';
 
-//문제수를 이용해 페이지수 계산
+// 전체 문제 수로 페이지 수 계산
 $problem_count = $count_result[0][0];
 $max_problems_per_page = 9;
 $max_pages = 5;
@@ -310,7 +310,7 @@ echo '<div style="position: absolute; bottom: -30px; left: 0; right: 0; margin-l
     <div id="singleLeft" class="arrow"><center>&lsaquo;</center></div>';
 
 for ($i = $start_page; $i <= $total_pages; $i++) {
-  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 번째 페이지를 선택 상태로 지정
+  $selected_class = ($i == 1) ? 'selected' : ''; // 첫 페이지를 선택 상태로 지정
   echo '<div id="page' . $i . '" class="pagination-item ' . $selected_class . '" >' . $i . '</div>';
 }
 

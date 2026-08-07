@@ -11,6 +11,8 @@
 
 <br>
 
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
@@ -253,7 +255,7 @@ AlgoWiki는 그 사이에 **게임의 보상 루프**를 넣었습니다.
 ## 프론트엔드
 
 > [!IMPORTANT]
-> 이 프로젝트의 **모든 화면 — PHP 뷰 · CSS · 인터랙션 JS — 은 AI 도움 없이 직접 설계하고 작성**했습니다.
+> 이 프로젝트의 **화면 마크업(PHP 뷰)과 CSS는 AI 도움 없이 직접 설계하고 작성**했습니다.
 > 설계 노트: [docs/frontend.md](docs/frontend.md)
 
 **빌드 도구도, 프레임워크도 없이** — 서버가 내려주는 PHP 문자열과 손으로 쓴 CSS만으로 위 화면들을 만들었습니다.

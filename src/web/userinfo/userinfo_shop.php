@@ -5,7 +5,7 @@ require_once( './include/db_info.inc.php' );
 require_once( './include/memcache.php' );
 require_once( './include/setlang.php' );
 require_once( './include/bbcode.php' );
-if($user!=$_SESSION[$OJ_NAME.'_'.'user_id'] ){//운영자이거나, 본인 아니면 못봄
+if($user!=$_SESSION[$OJ_NAME.'_'.'user_id'] ){// 본인 또는 운영자만 접근 가능
 if(!isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 echo "<script>location.href='userinfo.php?user=".$user."'</script>";
 }
@@ -44,7 +44,7 @@ body {
             padding: 20px 0 0;
             border-top: 1px solid #ddd;}
 
-        /*라디오버튼 숨김*/
+        /* 라디오 버튼 숨김 — 탭 상태를 CSS만으로 관리 */
           input {
               display: none;}
 
@@ -62,7 +62,7 @@ body {
             color: #2e9cdf;
             cursor: pointer;}
 
-        /*input 클릭시, label 스타일*/
+        /* 선택된 탭의 라벨 스타일 */
         input:checked + label {
               color: #555;
               border: 1px solid #ddd;
@@ -85,7 +85,7 @@ body {
     <input id="tab2" type="radio" name="tabs">
     <label for="tab2" onclick="changeTab('problem')">기록</label>
     <?php 
-    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){//운영자이거나, 본인일 경우에만 보임
+    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){// 본인 또는 운영자에게만 노출
     ?>
     <input id="tab3" type="radio" name="tabs">
     <label for="tab3" onclick="changeTab('quest')">퀘스트</label>
@@ -107,7 +107,7 @@ body {
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
 <script>
 window.onload = function() {
-    // 프로필 탭에 대한 라디오 버튼을 찾아서 checked 속성을 추가
+    // 현재 탭의 라디오 버튼을 선택 상태로 지정
     document.getElementById('tab4').checked = true;
 };
 

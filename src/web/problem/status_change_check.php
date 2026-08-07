@@ -1,6 +1,6 @@
 
 <?php
-// 정보들 가져오기
+// 요청 파라미터
 require_once('../include/cache_start.php');
 require_once('../include/db_info.inc.php');
 require_once('../include/my_func.inc.php');

@@ -9,7 +9,7 @@ require_once('../include/memcache.php');
 require_once('../include/setlang.php');
 require_once('../include/bbcode.php');
 
-// 정보들 가져오기
+// 요청 파라미터
 $sql = isset($_POST['sql']) ? $_POST['sql'] : '';
 echo $sql;
 

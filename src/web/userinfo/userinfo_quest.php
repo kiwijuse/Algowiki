@@ -5,7 +5,7 @@ require_once( './include/db_info.inc.php' );
 require_once( './include/memcache.php' );
 require_once( './include/setlang.php' );
 require_once( './include/bbcode.php' );
-if($user!=$_SESSION[$OJ_NAME.'_'.'user_id'] ){//운영자이거나 본인 아니면 못봄
+if($user!=$_SESSION[$OJ_NAME.'_'.'user_id'] ){// 본인 또는 운영자만 접근 가능
 if(!isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
 echo "<script>location.href='userinfo.php?user=".$user."'</script>";
 }
@@ -61,7 +61,7 @@ img {
             padding: 20px 0 0;
             border-top: 1px solid #ddd;}
 
-        /*라디오버튼 숨김*/
+        /* 라디오 버튼 숨김 — 탭 상태를 CSS만으로 관리 */
           input {
               display: none;}
 
@@ -79,7 +79,7 @@ img {
             color: #2e9cdf;
             cursor: pointer;}
 
-        /*input 클릭시, label 스타일*/
+        /* 선택된 탭의 라벨 스타일 */
         input:checked + label {
               color: #555;
               border: 1px solid #ddd;
@@ -92,8 +92,8 @@ img {
         #tab4:checked ~ #content4 {
             display: block;}
 	progress {
-        width: 150px; /* 프로그래스 바의 폭을 조절할 수 있습니다. */
-        height: 20px; /* 프로그래스 바의 높이를 조절할 수 있습니다. */
+        width: 150px;
+        height: 20px;
     }
 
     #progressContainer {
@@ -443,7 +443,7 @@ img {
     <input id="tab2" type="radio" name="tabs">
     <label for="tab2" onclick="changeTab('problem')">기록</label>
     <?php 
-    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){//운영자이거나, 본인일 경우에만 보임
+    if($user==$_SESSION[$OJ_NAME.'_'.'user_id'] || isset($_SESSION[$OJ_NAME.'_'.'administrator'])){// 본인 또는 운영자에게만 노출
     ?>
     <input id="tab3" type="radio" name="tabs" checked>
     <label for="tab3" onclick="changeTab('quest')">퀘스트</label>
@@ -508,7 +508,7 @@ img {
 <?php include("template/$OJ_TEMPLATE/footer.php");?>
 <script>
 window.onload = function() {
-    // 프로필 탭에 대한 라디오 버튼을 찾아서 checked 속성을 추가
+    // 현재 탭의 라디오 버튼을 선택 상태로 지정
     document.getElementById('tab3').checked = true;
 };
 
@@ -516,9 +516,8 @@ function changeTab(tabId) {
     window.location.href = "userinfo.php?user=<?php echo $user;?>&tab=" + tabId;
 }
 
-// 사용자 이름을 지정
     var username = '<?php echo $git;?>';
-    // GitHub API를 통해 프로필 사진 URL 가져오기
+    // GitHub API에서 아바타 URL 조회
     fetch(`https://api.github.com/users/${username}`)
         .then(response => {
             if (!response.ok) {
@@ -527,7 +526,6 @@ function changeTab(tabId) {
             return response.json();
         })
         .then(data => {
-            // 이미지 태그의 src 속성에 프로필 사진 URL 설정
             document.getElementById('github-avatar').src = data.avatar_url;
         })
         .catch(error => {
@@ -538,11 +536,9 @@ function showTooltip(needExp, maxExp) {
     var progressBar = document.getElementById('progressBar');
     var tooltip = document.getElementById('tooltip');
 
-    // 툴팁 내용 설정
     var tooltipText = needExp + ' / ' + maxExp;
     tooltip.innerText = tooltipText;
 
-    // 툴팁 위치 설정
     tooltip.style.display = 'block';
   }
 
@@ -555,7 +551,6 @@ function selectTab(tab) {
         allTabs.forEach(function (item) {
             item.classList.remove('selected');
         });
-        // 클릭한 퀘스트 탭에 'selected' 클래스 추가
         tab.classList.add('selected');
 	var questclass = tab.getAttribute('name');
 	document.getElementById('class').value = questclass;
@@ -564,7 +559,7 @@ function selectTab(tab) {
 
 function get_reward(quest_id) {
 	var user = <?php echo json_encode($user); ?>;
-        // jQuery를 사용하여 서버에 요청 및 결과 갱신
+        // 서버에서 조각 HTML을 받아 갱신
 	$.ajax({
     	type: 'POST',
     	url: './quest/get_reward.php',
@@ -586,7 +581,7 @@ function firework() {
   var duration = 15 * 100;
   var animationEnd = Date.now() + duration;
   var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 0 };
-  //  startVelocity: 범위, spread: 방향, ticks: 갯수
+  // startVelocity: 초기 속도, spread: 퍼지는 각도, ticks: 입자 수명
 
   function randomInRange(min, max) {
     return Math.random() * (max - min) + min;
@@ -617,7 +612,7 @@ function firework() {
 }
 function profile_ajax() {
 	var user = <?php echo json_encode($user); ?>;
-        // jQuery를 사용하여 서버에 요청 및 결과 갱신
+        // 서버에서 조각 HTML을 받아 갱신
 	$.ajax({
     	type: 'POST',
     	url: './quest/profile_db.php',

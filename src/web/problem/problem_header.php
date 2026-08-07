@@ -21,7 +21,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : '1';
 $pageset = isset($_GET['pageset']) ? $_GET['pageset'] : '1';
 $show_tag = isset($_GET['show_tag']) ? $_GET['show_tag'] : '0';
 $show_problem = isset($_GET['show_problem']) ? $_GET['show_problem'] : '1';
-if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))$show_problem = 1;//로그인 안하면 무조건 맞은문제 표시 켜기
+if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))$show_problem = 1;// 비로그인 상태에서는 '맞은 문제 표시'를 기본값으로 고정
 ?>
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
@@ -76,7 +76,7 @@ if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))$show_problem = 1;//로그인 안�
 
 	<center>	
 	<?php 
-	if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){//로그인 했을때만 맞은문제표시가 뜸 ?>	
+	if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])){// 로그인 상태에서만 '맞은 문제 표시' 토글을 노출 ?>	
 	<h3>맞은 문제 표시
 	<div class="toggle-switch" style="float:right; margin-right: 15px; margin-left: 15px;" id="toggleSwitch" onclick="this.classList.toggle('active');change_problem()">
   		<div class="toggle-circle" style="float:right;"></div>
@@ -107,7 +107,7 @@ if(!isset($_SESSION[$OJ_NAME.'_'.'user_id']))$show_problem = 1;//로그인 안�
    </div>
 
 <script>
-//뒤로가기 등 페이지 이동시에도 옵션 값 기억
+// 뒤로가기 등으로 돌아와도 선택한 옵션을 유지
 var currentUrl = window.location.href;
 var baseUrl = currentUrl.split('?')[0];
 window.history.replaceState({}, document.title, baseUrl);
@@ -128,7 +128,7 @@ if(f_show_problem == '0'){
     toggleSwitchElement.classList.toggle('active');
     document.getElementById('show_problem').value=0;
 }
-//filter 변수가 falsy 한 값(null, undefined, 0, 빈 문자열 등) 이 아니라면 필터 추가
+// filter 값이 비어 있지 않을 때만 추가
 l=0;
 if(!!f_filter1){
 addFilter(f_filter1);
@@ -146,13 +146,11 @@ toggleDropdown();
 }
 l=1;
     window.onload = function() {
-        // 초기로드 시 setActive 함수 호출
         setActive(document.querySelectorAll('.sorting-criteria')[i]);
     };
 
-    //검색시
+    // 검색 실행
     function performSearch() {
-        // 입력된 값 가져오기
         var searchValue = document.getElementById("searchInput").value;
 	document.getElementById('search').value=searchValue;
 	document.getElementById('pageset').value=1;
@@ -165,7 +163,7 @@ l=1;
 	}
     }
 
-    //맞은 문제 표시 바꿀시
+    // '맞은 문제 표시' 토글 변경
     function change_problem(){
 	if(document.getElementById('show_problem').value==0){
 		document.getElementById('show_problem').value=1;
@@ -178,10 +176,10 @@ l=1;
 	applyFilter();	
     }
 
-    var $sorting = document.getElementById('Sorting'); // hidden input 요소를 가져옴
-    var $page = document.getElementById('Page'); // hidden input 요소를 가져옴
-    j =0; //초기 로드시에 $page.value 와 pageset 값을 바꾸지 않기위해 초기값 설정을 위해 j변수 선언
-    //위 정렬기준 바꾸는것
+    var $sorting = document.getElementById('Sorting'); 
+    var $page = document.getElementById('Page'); 
+    j =0; // 초기 로드 시에는 page·pageset 을 건드리지 않기 위한 플래그
+    // 정렬 기준 변경
     function setActive(element) {
         document.querySelectorAll('.sorting-criteria').forEach((el) => {
             el.classList.remove('active');
@@ -189,8 +187,8 @@ l=1;
         });
         element.classList.add('active');
 	element.classList.add('w-up');
-        var buttonText = element.textContent.trim().slice(2); // 버튼 내부의 텍스트를 가져옴
-        $sorting.value = buttonText; // $sorting의 value 값을 버튼 텍스트로 설정
+        var buttonText = element.textContent.trim().slice(2); 
+        $sorting.value = buttonText; 
 	if(j!=0){
         $page.value = 1;
         document.getElementById('pageset').value = 1;
@@ -199,15 +197,15 @@ l=1;
         applyFilter();
     }
 
-    //드랍다운 보여주는것
+    // 드롭다운 표시
     function toggleDropdown() {
         var dropdown = document.getElementById("dropdown");
         dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
 
-    //필터 추가
+    // 필터 추가
     function addFilter(filter) {
-	//필터에 선택한 값이 있을경우 또 선택해도 아무일도 발생안함
+	// 이미 선택된 필터는 중복 추가하지 않음
 	var filterInput_all = document.querySelectorAll('[id^="Filter"]');
         var asd = 0;
 	filterInput_all.forEach(function(inputs) {
@@ -219,7 +217,7 @@ l=1;
 	return;
 	}
         
-        // 최대 3개의 필터만 허용
+        // 필터는 최대 3개까지
 	var selectedFilters = document.getElementById("selectedFilters");
         if (selectedFilters.children.length >= 3) {
             alert("최대 3개의 필터만 선택할 수 있습니다.");
@@ -234,7 +232,7 @@ l=1;
             removeFilterElement(filterElement);
         };
         selectedFilters.appendChild(filterElement);
-        // 선택된 필터를 필터 박스에서 숨김
+        // 선택된 필터는 드롭다운에서 숨김
         var dropdownItems = document.getElementById("dropdown").getElementsByTagName("a");
         for (var i = 0; i < dropdownItems.length; i++) {
             if (dropdownItems[i].innerHTML === filter) {
@@ -243,16 +241,16 @@ l=1;
         }
         // Update hidden input values
         updateHiddenInputValues();
-        // 필터를 클릭하여 추가하면 드랍다운을 닫음
+        // 필터를 추가하면 드롭다운을 닫음
         toggleDropdown();
 	
     }
 
-    //필터 제거
+    // 필터 제거
     function removeFilterElement(filterElement) {
         filterElement.remove();
 
-        // 삭제된 필터를 필터 박스에서 다시 보임
+        // 제거된 필터를 드롭다운에 다시 노출
         var dropdownItems = document.getElementById("dropdown").getElementsByTagName("a");
         for (var i = 0; i < dropdownItems.length; i++) {
             if (dropdownItems[i].innerHTML === filterElement.innerHTML) {
@@ -263,7 +261,7 @@ l=1;
         updateHiddenInputValues();
     }
 
-    //ajax 전송할 filter 정보들 변환
+    // AJAX 전송용 필터 값 변환
     function updateHiddenInputValues() {
         var selectedFilters = document.getElementsByClassName("selected-filter");
         var filterInputs = document.querySelectorAll('[id^="Filter"]');
@@ -294,16 +292,13 @@ l=1;
         }
     });
 
-    // 필터 적용 코드
     function updateFilterResults() {
         $.post('problem_db.php', {
             action: 'getCountResult'
         }, function(data) {
-            // 서버에서 가져온 값으로 페이지 내의 메뉴 등 업데이트
             var countResult = JSON.parse(data);
         });
     }
-    // applyFilter 함수 정의
     function applyFilter() {
 	var sorting = $('#Sorting').val();
         var filter1 = $('#Filter1').val();
@@ -313,7 +308,7 @@ l=1;
         var pageset = $('#pageset').val();
 	var show_problem = $('#show_problem').val();
 	var search = $('#search').val();
-        // jQuery를 사용하여 서버에 요청 및 결과 갱신
+        // 서버에서 조각 HTML을 받아 갱신
 	$.ajax({
     	type: 'POST',
     	url: './problem/problem_db.php',
@@ -333,7 +328,7 @@ l=1;
     		}
 	});	
     }
-window.onbeforeunload = function() {//페이지를 떠날때 주소 저장
+window.onbeforeunload = function() {// 페이지를 떠날 때 현재 주소를 저장
     changeaddress();
 };
 function changeaddress(){

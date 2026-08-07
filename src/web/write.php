@@ -12,7 +12,7 @@ $result = false;
 <?php $show_title="게시글 작성 - AlgoWiki"; ?>
 <?php include("template/$OJ_TEMPLATE/header.php");
 
-if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 안했을 시 로그인 페이지로 이동*/
+if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/* 비로그인 상태면 로그인 페이지로 이동 */
 	echo "<script>location.href='./loginpage.php'</script>";	
 }?>
 
@@ -118,20 +118,16 @@ if (!isset($_SESSION[$OJ_NAME.'_'.'user_id'])){/*로그인 안했을 시 로그�
   }
 
   function hideDropdown() {
-    // 드랍다운 숨기기
     setTimeout(function() {
       document.getElementById('classification-dropdown').style.display = 'none';
     }, 200);
   }
 
   function selectOption(option) {
-    // 선택된 옵션에 대한 처리
     console.log('선택된 옵션:', option);
 
-    // 선택된 옵션을 입력 상자에 설정
     document.getElementById('classification').value = option;
 
-    // 드랍다운 숨기기
     hideDropdown();
   }
   function saveContent() {
