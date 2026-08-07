@@ -188,22 +188,22 @@ GET /problem_list.php
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  테마 계층      template/algowiki/header.php · footer.php │
-│                 모든 페이지가 공유하는 헤더 · 내비 · 푸터   │
+│  테마 계층      template/algowiki/header.php · footer.php│
+│                 모든 페이지가 공유하는 헤더 · 내비 · 푸터  │
 ├─────────────────────────────────────────────────────────┤
-│  페이지 계층    index / problem_list / problem / status   │
-│                 category / quiz / board / userinfo        │
-│                 → 라우팅 · 권한 · 레이아웃 · CSS · JS      │
+│  페이지 계층    index / problem_list / problem / status  │
+│                 category / quiz / board / userinfo      │
+│                 → 라우팅 · 권한 · 레이아웃 · CSS · JS     │
 ├─────────────────────────────────────────────────────────┤
-│  뷰 계층        userinfo/*.php   board/*.php              │
-│                 → 탭·분류별 화면 골격                      │
+│  뷰 계층        userinfo/*.php   board/*.php             │
+│                 → 탭·분류별 화면 골격                     │
 ├─────────────────────────────────────────────────────────┤
-│  렌더러 계층    *_header.php  (상단 컨트롤)                │
-│                 *_db.php      (데이터 → HTML 조각)         │
-│                 *_ajax.php    (읽기 + 쓰기)                │
+│  렌더러 계층    *_header.php  (상단 컨트롤)               │
+│                 *_db.php      (데이터 → HTML 조각)       │
+│                 *_ajax.php    (읽기 + 쓰기)              │
 ├─────────────────────────────────────────────────────────┤
-│  코어 계층      include/  ※ HUSTOJ — 이 저장소에 없음      │
-│                 세션 · DB 접근 · 캐시 · 다국어             │
+│  코어 계층      include/  ※ HUSTOJ — 이 저장소에 없음    │
+│                 세션 · DB 접근 · 캐시 · 다국어            │
 └─────────────────────────────────────────────────────────┘
 ```
 
